@@ -273,12 +273,12 @@ AutoTeams 采用**开源 + 商业双许可模式 (Dual-Licensing Business Model)
 **您必须在商业上线前获得版权所有者的官方商业授权证书。**
 
 > **商业授权咨询与商务合作**：
-> - 著作权人：**郭阳震 (guoyangzhen)**
+> - 著作权人：**郭阳振 (Guo Yangzhen)**
 > - 商务与授权邮箱：**[upgyz@qq.com](mailto:upgyz@qq.com)**
 > - 官方代码仓库：[https://github.com/guoyangzhen/AutoTeams](https://github.com/guoyangzhen/AutoTeams)
 
 ---
 
 <div align="center">
-Made with ❤️ by AutoTeams Team · Copyright © 2026 guoyangzhen
+Made with ❤️ by KongsenYoung · Copyright © 2026 guoyangzhen
 </div>
