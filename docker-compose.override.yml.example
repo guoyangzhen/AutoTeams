@@ -1,0 +1,65 @@
+# ============================================================
+# ⚠️  安全警告（INF-SEC-02）
+# 本文件为开发覆盖配置，会进一步放宽安全限制：
+#   - 暴露 PostgreSQL/Redis/ChromaDB 端口到宿主机
+#   - 移除 read_only / security_opt 限制
+#   - 挂载源码到容器（热重载）
+# 请勿用于生产环境！复制为 docker-compose.override.yml 后仅用于本地开发。
+# ============================================================
+# ============================================================
+# P1-07-D: 开发覆盖配置示例
+#
+# docker compose 会自动加载 docker-compose.yml + docker-compose.override.yml
+# 本文件提供了开发环境常用的覆盖配置，复制为 docker-compose.override.yml 即可生效
+#
+# 用法：
+#   cp docker-compose.override.yml.example docker-compose.override.yml
+#   docker compose up -d
+#
+# 作用：
+# - 后端暴露 8000 端口到宿主机（便于本地 curl / postman 调试）
+# - 后端挂载源码（代码修改实时生效，配合 uvicorn --reload）
+# - PostgreSQL/Redis 暴露端口（便于 GUI 工具连接）
+# - 开启 debug 日志
+# ============================================================
+
+services:
+  backend:
+    ports:
+      - "8000:8000"
+    volumes:
+      # 挂载源码到容器，实现热重载
+      - ./backend:/app
+    environment:
+      - DEBUG=true
+      # uvicorn 热重载（需在 Dockerfile CMD 中启用 --reload，或在此覆盖）
+      - RELOAD=true
+    # 覆盖生产 command，启用热重载
+    # L1: --no-server-header 隐藏 Server: uvicorn 响应头（开发环境同样不应暴露指纹）
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --no-server-header
+    # 开发环境移除 read_only 限制，便于写入临时文件
+    read_only: false
+    # 开发环境移除安全限制，便于调试
+    security_opt: []
+
+  frontend:
+    ports:
+      - "3000:8080"
+    # 开发环境移除 read_only 限制
+    read_only: false
+    security_opt: []
+
+  postgres:
+    # 暴露 PostgreSQL 端口，便于 GUI 工具（如 DBeaver / pgAdmin）连接
+    ports:
+      - "5432:5432"
+
+  redis:
+    # 暴露 Redis 端口
+    ports:
+      - "6379:6379"
+
+  chromadb:
+    # 暴露 ChromaDB 端口
+    ports:
+      - "8001:8000"

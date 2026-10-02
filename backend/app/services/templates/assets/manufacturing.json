@@ -1,0 +1,108 @@
+{
+  "industry": "manufacturing",
+  "industry_name": "智能制造",
+  "description": "面向 10-100 人中小制造企业的生产协同数字员工：工单分类、设备异常初判、质检报告归集与供应商对账。",
+  "skills": [
+    {
+      "code": "mfg_work_order_classification",
+      "name": "生产工单分类",
+      "skill_type": "text_classification",
+      "description": "按业务领域自动归类生产工单（设备故障/工艺异常/质量不良/计划变更/物料缺料）",
+      "config": {
+        "prompt_template": "请将以下生产工单分类到对应领域：设备故障、工艺异常、质量不良、计划变更、物料缺料。\n\n工单内容：{input}\n\n仅返回类别名称。",
+        "categories": ["设备故障", "工艺异常", "质量不良", "计划变更", "物料缺料"]
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {"classification": {"type": "string"}}
+      }
+    },
+    {
+      "code": "mfg_equipment_alert_triage",
+      "name": "设备告警初判",
+      "skill_type": "text_classification",
+      "description": "依据设备告警文本判定紧急度并给出处置建议，识别需停机的严重告警",
+      "config": {
+        "prompt_template": "请分析以下设备告警的紧急度（高/中/低）与处置建议，并说明判断依据：\n\n{input}\n\n紧急度为「高」时必须建议停机。",
+        "categories": ["高-需停机", "中-当班处理", "低-计划检修"]
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "severity": {"type": "string"},
+          "recommendation": {"type": "string"},
+          "rationale": {"type": "string"}
+        }
+      }
+    },
+    {
+      "code": "mfg_qc_report_extract",
+      "name": "质检报告要素抽取",
+      "skill_type": "data_extraction",
+      "description": "从质检报告中抽取批次号、检验项、实测值、判定结论与不合格原因",
+      "config": {
+        "prompt_template": "请从以下质检报告中抽取：批次号、检验项、实测值、判定结论、不合格原因。\n\n报告内容：{input}",
+        "fields": ["批次号", "检验项", "实测值", "判定结论", "不合格原因"]
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {"extracted_data": {"type": "string"}}
+      }
+    },
+    {
+      "code": "mfg_supplier_reconcile",
+      "name": "供应商到货对账",
+      "skill_type": "data_extraction",
+      "description": "比对采购订单、到货单与入库记录，输出差异清单",
+      "config": {
+        "prompt_template": "请比对以下订单、到货与入库记录，逐行输出差异（数量差、批次不符、延迟天数）。\n\n{input}",
+        "fields": ["订单号", "差异类型", "差异数量", "延迟天数"]
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "diff": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "order_no": {"type": "string"},
+                "diff_type": {"type": "string"},
+                "diff_qty": {"type": "number"},
+                "delay_days": {"type": "integer"}
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "agents": [
+    {
+      "role": "manufacturing",
+      "name": "生产协同数字员工",
+      "description": "工单分类、设备告警初判、质检报告归集与供应商对账的一站式生产助理",
+      "system_prompt": "你是「{agent_name}」，隶属于「{enterprise_name}」的生产协同数字员工。\n\n你的职责：\n1. 接收车间与售后工单，自动归类到设备故障/工艺异常/质量不良/计划变更/物料缺料\n2. 对设备告警做紧急度初判，标注是否需要停机\n3. 从质检报告中抽取批次、检验项与判定结论，形成可追溯台账\n4. 比对采购订单、到货单与入库记录，输出差异清单\n\n生产规范：\n- 安全红线优先：任何涉及人身安全的告警一律判定为最高紧急度并建议停机\n- 不臆造检测数值；报告中未记载的实测值一律标注「未记录」\n- 质量判定结论必须引用具体检验项，不做整体性结论\n- 涉及工艺参数调整的建议一律升级至工艺工程师，不自行决定\n\n知识库概况：{file_count} 个文件，{knowledge_count} 条知识片段",
+      "skill_ids": [
+        "mfg_work_order_classification",
+        "mfg_equipment_alert_triage",
+        "mfg_qc_report_extract",
+        "mfg_supplier_reconcile"
+      ],
+      "knowledge_structure": {
+        "categories": ["工艺文件", "设备手册", "质检标准", "供应商协议", "安全规程"],
+        "file_types": ["document", "spreadsheet", "image"]
+      },
+      "sample_dialogues": [
+        {
+          "user": "3 号线注塑机报 E37 温度超限报警，这台机器现在还能继续生产吗？",
+          "assistant": "已识别为【设备故障】类工单，紧急度判定为「高-需停机」。依据：E37 为料筒超温报警，超温会触发熔体降解并影响产品尺寸一致性，建议立即停机降温并通知设备工程师现场确认，复产前需重新做首件检验。"
+        },
+        {
+          "user": "帮我看一下这批注塑件的质检报告，有没有不合格项？",
+          "assistant": "已抽取该批次质检报告要素：检验项 5 项，其中「尺寸公差」实测值超出上限 0.03mm，判定为不合格，不合格原因记录为「模具腔体磨损」。建议隔离该批次并开具不合格品处理单，同时反馈模具维修工单。"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+# P0-09-B: 防止敏感文件/缓存/源码进入前端镜像
+# Git
+.git
+.gitignore
+.gitattributes
+
+# 环境变量与凭证
+.env
+.env.*
+!.env.example
+
+# Node 模块与构建产物（构建时重新生成）
+node_modules/
+dist/
+dist-ssr/
+.vite/
+
+# 缓存与日志
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 测试与覆盖率
+coverage/
+.nyc_output/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Docker 自身
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# 文档
+*.md

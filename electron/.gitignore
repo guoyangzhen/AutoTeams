@@ -1,0 +1,14 @@
+# 依赖
+node_modules/
+
+# 构建产物（main / preload 的 CommonJS 产物）
+dist-electron/
+
+# 测试构建产物（node --test 的运行目录）
+dist-test/
+
+# electron-builder 打包输出
+release/
+
+# 日志与临时文件
+*.log

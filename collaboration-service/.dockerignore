@@ -1,0 +1,12 @@
+# 防止把本地依赖/构建产物/敏感文件送入 Docker 构建上下文
+node_modules/
+dist/
+.git
+.gitignore
+.env
+*.log
+npm-debug.log*
+Dockerfile
+.dockerignore
+docker-compose*.yml
+*.md

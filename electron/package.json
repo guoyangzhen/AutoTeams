@@ -1,0 +1,73 @@
+{
+  "name": "autoteams-desktop",
+  "version": "1.0.0",
+  "description": "AutoTeams 桌面端 - 面向中小企业的 AI 数字员工工作台与本地 Agent 调度中枢",
+  "private": true,
+  "main": "dist-electron/main/index.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "build": "npm run typecheck && tsc -p tsconfig.build.json",
+    "build:test": "tsc -p tsconfig.test.json",
+    "test": "npm run build:test && node --test --test-timeout=30000 \"dist-test/main/tests/*.test.js\"",
+    "dev": "npm run build && concurrently -k -n watch,electron -c cyan,magenta \"tsc -p tsconfig.build.json --watch\" \"electron .\"",
+    "start": "electron .",
+    "package": "npm run build && electron-builder",
+    "package:dir": "npm run build && electron-builder --dir"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "@types/ws": "^8.5.13",
+    "concurrently": "^9.1.0",
+    "electron": "^32.0.0",
+    "electron-builder": "^25.1.8",
+    "typescript": "^5.5.0"
+  },
+  "build": {
+    "appId": "com.autoteams.desktop",
+    "productName": "AutoTeams",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist-electron/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "../frontend/dist",
+        "to": "frontend",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "category": "public.app-category.business"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Office"
+    },
+    "publish": null
+  },
+  "files": [
+    "dist-electron/**/*",
+    "package.json"
+  ]
+}

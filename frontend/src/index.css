@@ -1,0 +1,1193 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   AutoTeams 设计系统 - 方案B 可信企业为主干
+   暖白纸感 + 深海军蓝 + 衬线标题
+   融入方案C 工作流画布动效 + 方案A 部署流水线脉冲
+   默认浅色，深色模式可选
+   ============================================================ */
+
+:root {
+  font-family: 'Inter', 'Noto Sans SC', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light;
+}
+
+/* 全局暗色模式（#21）：由 useTheme 在 <html> 上挂 .dark 类激活 */
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* 浅色主题（默认，暖白纸感，方案B） */
+:root,
+.light {
+  --bg-canvas: #FAFAF7;
+  --bg-surface: #FFFFFF;
+  --bg-elevated: #F5F4EF;
+  --bg-surface-2: #F5F4EF;
+  --bg-surface-3: #EFEEE8;
+  --bg-muted: #F2F1EC;
+  --border-subtle: rgba(30, 58, 95, 0.06);
+  --border-default: #E5E3DC;
+  --border-strong: #D9D6CC;
+  --border-input: #E5E3DC;
+  --text-primary: #1A1A1A;
+  --text-secondary: #525252;
+  --text-tertiary: #6B6B6B;
+  --text-muted: #8A8A8A;
+  --brand: #1E3A5F;
+  --brand-strong: #15293F;
+  --brand-soft: rgba(30, 58, 95, 0.07);
+  --brand-lighter: #6B8CB1;
+  /* 信号色（浅色区）：供 .zone-command 页在日间模式下使用。
+     指挥区样式在浅色主题下同样引用 --sig-* / --brand-lift（见下方
+     :is(.zone-command, .dark) 规则），若此处不定义，日间模式下这些
+     变量解析为空，导致主按钮（bg-brand-500）与品牌文字变为透明不可见。 */
+  --sig-alive: #16A34A;
+  --sig-focus: #1A6CFF;
+  --sig-alert: #D97706;
+  --sig-fault: #DC2626;
+  --sig-idle: #8A8A8A;
+  --brand-lift: #1E3A5F;
+  --success: #16A34A;
+  --warning: #D97706;
+  --error: #DC2626;
+  --info: #2563EB;
+  /* 设计稿兼容别名 (shadcn/ui 风格变量名映射到本系统 token) */
+  --surface: var(--bg-surface);
+  --surface-2: var(--bg-surface-2);
+  --surface-3: var(--bg-surface-3);
+  --state-success: var(--success);
+  --state-warning: var(--warning);
+  --state-error: var(--error);
+  --state-info: var(--info);
+  --muted: var(--bg-muted);
+  --muted-foreground: var(--text-tertiary);
+  --border: var(--border-default);
+  --input: var(--border-input);
+  --foreground: var(--text-primary);
+  --background: var(--bg-canvas);
+  --card: var(--bg-surface);
+  --card-foreground: var(--text-primary);
+  --popover: var(--bg-surface);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--brand);
+  --primary-foreground: #FFFFFF;
+  --secondary: var(--bg-muted);
+  --secondary-foreground: var(--text-secondary);
+  --accent: var(--bg-muted);
+  --accent-foreground: var(--text-secondary);
+  --destructive: var(--error);
+  --destructive-foreground: #FFFFFF;
+  --ring: var(--brand);
+  /* 导航链（侧边栏）浅色变量：对齐 DESIGN.md §4（240px 侧栏，选中项 = 主色 2px 左标 + 墨色文字，其余 #6B6B66） */
+  --nav-bg: #F4F4F3;
+  --nav-border: #E4E4E1;
+  --nav-text: #0B0B0B;
+  --nav-text-muted: #6B6B66;
+  --nav-active-bg: rgba(31, 79, 216, 0.05);
+  --nav-active-text: #0B0B0B;
+  --nav-hover-bg: rgba(15, 15, 15, 0.03);
+  --nav-brand-text: #0B0B0B;
+  /* 指挥区氛围网格线颜色（浅色用深线，深色用白线） */
+  --zone-grid-line: rgba(15, 23, 42, 0.05);
+  color: var(--text-primary);
+  /* ================================================================
+   AutoTeams v2「克制 · 编辑式」令牌层（autoteams_ui/DESIGN.md §2）
+   纸面白底 + 1px 发丝线分隔 + 单一主色，不改动上方 v1 既有令牌，
+   新页面（11 组织进化等）按新令牌书写，两者可长期共存。
+   ================================================================ */
+  --at-paper: #FAFAF9;        /* 页面底色 */
+  --at-card: #FFFFFF;         /* 内容面 */
+  --at-alt: #F4F4F3;          /* 次级区块底 */
+  --at-hairline: #E4E4E1;     /* 唯一的分隔手段，1px */
+  --at-ink: #0B0B0B;          /* 标题与正文 */
+  --at-ink-muted: #6B6B66;    /* 说明、标签 */
+  --at-ink-subtle: #A3A29C;   /* 占位与元信息 */
+  --at-muted: #6B6B66;
+  --at-subtle: #A3A29C;
+  --at-primary: #1F4FD8;      /* 全屏 ≤3 处：主行动 / 选中 / 关键数字 */
+  --at-on-primary: #FFFFFF;
+  --at-positive: #1F7A4D;     /* 仅状态点与状态文字 */
+  --at-caution: #9A6212;
+  --at-blocked: #B23A2F;
+  background-color: var(--bg-canvas);
+}
+
+/* 深色主题（v4 已恢复）：见下方「v4 深空仪表」区块的 .zone-command 定义。
+   v4 采用「分区语义变量」而非全局 .dark 类：
+   - 工作区（对话/知识/设置）保持暖白纸感，不加任何类
+   - 指挥区（驾驶舱/编译/运行时/影子/进化）加 .zone-command 切换为深空仪表
+   两区共用同一组语义变量名，组件代码零分叉。 */
+
+input, textarea, select, button {
+  font-family: inherit;
+}
+
+/* 衬线标题字体（方案B核心视觉特征） */
+.font-serif-display {
+  font-family: 'Source Serif 4', 'Noto Serif SC', Georgia, serif;
+  letter-spacing: -0.01em;
+}
+
+/* 品牌装饰线（对标 prototype：40px 宽度） */
+.brand-rule {
+  height: 3px;
+  width: 40px;
+  background: var(--brand);
+  border-radius: 2px;
+}
+
+/* 状态点 */
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.dot-success { background: var(--success); }
+.dot-warning { background: var(--warning); }
+.dot-error { background: var(--error); }
+.dot-info { background: var(--info); }
+.dot-muted { background: var(--text-muted); }
+
+/* 应用滚动条基线：所有新 overflow 区域默认继承，薄滚动条类只控制几何。 */
+:root {
+  --scrollbar-thumb: #abb3bd;
+  --scrollbar-thumb-hover: #8b96a3;
+  --scrollbar-thumb-active: #627183;
+  --scrollbar-track: transparent;
+}
+html.dark {
+  --scrollbar-thumb: #596577;
+  --scrollbar-thumb-hover: #76879f;
+  --scrollbar-thumb-active: #a2b1c4;
+}
+.at-cockpit {
+  --scrollbar-thumb: #5b5b63;
+  --scrollbar-thumb-hover: #81818b;
+  --scrollbar-thumb-active: #a6a6af;
+}
+html { scrollbar-gutter: stable; }
+* {
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  scrollbar-width: thin;
+}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
+::-webkit-scrollbar-thumb:active { background: var(--scrollbar-thumb-active); }
+.scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+
+/* 共享外壳的按钮/链接可见键盘焦点，含图标操作和浮层链接。 */
+.app-shell :where(button, a, input, select, textarea):focus-visible {
+  outline: 2px solid var(--sig-focus, var(--brand));
+  outline-offset: 3px;
+}
+.app-shell :where(button, a) { cursor: pointer; }
+.app-shell button:disabled { cursor: not-allowed; }
+
+@media (forced-colors: active) {
+  * { scrollbar-color: auto; }
+  .app-shell :where(button, a, input, select, textarea):focus-visible { outline-color: Highlight; }
+}
+
+/* ============================================================
+   方案C 融入: 工作流节点连接线（流动虚线）
+   ============================================================ */
+.flow-dash {
+  stroke-dasharray: 6 6;
+  animation: flowDash 1.2s linear infinite;
+}
+@keyframes flowDash {
+  to { stroke-dashoffset: -24; }
+}
+
+/* ============================================================
+   企业运转模型（#15）中枢流动线
+   ============================================================ */
+.model-core-line {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--brand, #1E3A5F), transparent);
+  background-size: 200% 100%;
+  animation: modelCoreFlow 3s linear infinite;
+}
+@keyframes modelCoreFlow {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.zone-command .model-core-line {
+  background: linear-gradient(90deg, transparent, var(--sig-focus, #4C8DFF), transparent);
+  background-size: 200% 100%;
+  animation: modelCoreFlow 3s linear infinite;
+}
+
+/* ============================================================
+   方案A 融入: 部署流水线阶段脉冲
+   ============================================================ */
+.pipeline-pulse {
+  position: relative;
+  animation: pipelinePulse 2.4s ease-out infinite;
+}
+@keyframes pipelinePulse {
+  0% { box-shadow: 0 0 0 0 rgba(30,58,95,0.30); }
+  70% { box-shadow: 0 0 0 8px rgba(30,58,95,0); }
+  100% { box-shadow: 0 0 0 0 rgba(30,58,95,0); }
+}
+
+/* 工作流节点激活脉冲 */
+.wf-node-active {
+  animation: wfNodeActive 2.4s ease-out infinite;
+}
+@keyframes wfNodeActive {
+  0% { box-shadow: 0 0 0 0 rgba(30,58,95,0.30); }
+  70% { box-shadow: 0 0 0 10px rgba(30,58,95,0); }
+  100% { box-shadow: 0 0 0 0 rgba(30,58,95,0); }
+}
+
+/* 当前阶段节点脉冲发光（L1-L5 成熟度、流水线当前步） */
+.pulse-navy {
+  animation: pulse-navy 2s ease-in-out infinite;
+}
+@keyframes pulse-navy {
+  0%, 100% { opacity: 1; filter: drop-shadow(0 0 0 rgba(30,58,95,0)); }
+  50% { opacity: 0.7; filter: drop-shadow(0 0 6px rgba(30,58,95,0.6)); }
+}
+
+/* ============================================================
+   代码高亮（参考 GitHub Light）
+   ============================================================ */
+.hljs {
+  color: #24292e;
+  background: transparent;
+}
+.hljs-comment,
+.hljs-quote {
+  color: #6a737d;
+  font-style: italic;
+}
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-type,
+.hljs-name {
+  color: #d73a49;
+}
+.hljs-string,
+.hljs-attr,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+  color: #032f62;
+}
+.hljs-title,
+.hljs-section {
+  color: #6f42c1;
+}
+.hljs-number,
+.hljs-deletion {
+  color: #005cc5;
+}
+.hljs-built_in,
+.hljs-class .hljs-title,
+.hljs-title.class_ {
+  color: #e36209;
+}
+
+/* 流式打字机光标动画 */
+.typing-cursor::after {
+  content: '▋';
+  margin-left: 2px;
+  animation: blink-cursor 1s step-end infinite;
+  color: var(--brand, #1E3A5F);
+}
+
+@keyframes blink-cursor {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* 骨架屏 shimmer 效果 */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(30, 58, 95, 0.04) 25%,
+    rgba(30, 58, 95, 0.08) 50%,
+    rgba(30, 58, 95, 0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* 顶部进度条（AI 生成中） */
+.top-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #1E3A5F, #6B8CB1, #1E3A5F);
+  background-size: 200% 100%;
+  animation: progress-slide 1.5s ease-in-out infinite;
+  z-index: 100;
+}
+
+@keyframes progress-slide {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* 主题切换圆形扩散动画 */
+.theme-transition {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* 按钮点击微交互 */
+button:active:not(:disabled) {
+  transform: scale(0.97);
+  transition: transform 0.1s ease;
+}
+
+/* 输入框聚焦描边（海军蓝） */
+.input-focus {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.input-focus:focus-within {
+  border-color: var(--brand, #1E3A5F);
+  box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.12);
+}
+
+/* ============================================================
+   对话页面: 引用来源折叠块 + 打字动画
+   ============================================================ */
+details > summary {
+  list-style: none;
+  cursor: pointer;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+details[open] .citation-chevron {
+  transform: rotate(90deg);
+}
+.citation-chevron {
+  transition: transform 0.15s ease;
+}
+
+/* 打字指示器 (三点跳动) */
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--text-tertiary, #6B6B6B);
+  animation: typing-bounce 1.2s infinite ease-in-out;
+}
+.typing-dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.typing-dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+@keyframes typing-bounce {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+/* ============================================================
+   v4「深空仪表」— 指挥区视觉层
+   ------------------------------------------------------------
+   设计原则（docs/UI重构方案_v4_深空仪表.md §三）：
+   1. 分区不分家：深浅两区共用同一组语义变量名，组件代码零分叉，
+      仅由祖先元素上的 .zone-command 决定变量取值。
+   2. 深色下用「光」不用「影」：box-shadow 在深底几乎不可见，
+      改用内描边高光 + 信号辉光 + 磨砂玻璃 + 噪点纹理表达层级。
+   3. 品牌延续：保留衬线标题与海军蓝血统（深色下提亮为 --brand-lift）。
+   ============================================================ */
+
+/* html 级分区底色：防止页面边缘/过度滚动区露出与分区不符的底色
+   （深浅切换最容易穿帮的地方，由 useZone 同步；全局暗色模式同样应用） */
+html.dark,
+html.dark body {
+  background-color: #0A0E13;
+}
+
+/* 深色语义变量层：全局暗色模式（html.dark）激活。
+   全站真正切换：亮色下全站（含驾驶舱/侧边栏）为浅色，暗色下全站为深色。 */
+html.dark {
+  /* 底座：带青蓝的冷石墨，不用纯黑（纯黑显廉价且对比过硬） */
+  --ink-900: #0A0E13;
+  --ink-800: #0F141C;
+  --ink-700: #151C26;
+  --ink-600: #1D2733;
+  --ink-500: #28343F;
+
+  /* 信号色（仪表核心） */
+  --sig-alive: #4DD8C0;
+  --sig-focus: #4C8DFF;
+  --sig-alert: #F5A524;
+  --sig-fault: #FF5D5D;
+  --sig-idle: #64748B;
+
+  /* 品牌色在深底上的提亮版（原 #1E3A5F 在深底不可见） */
+  --brand-lift: #3E6FA8;
+
+  /* —— 语义变量覆写：与浅色区同名，组件无需感知所在分区 —— */
+  --bg-canvas: var(--ink-900);
+  --bg-surface: var(--ink-700);
+  --bg-elevated: var(--ink-600);
+  --bg-surface-2: var(--ink-600);
+  --bg-surface-3: var(--ink-500);
+  --bg-muted: var(--ink-800);
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-default: rgba(255, 255, 255, 0.10);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --border-input: rgba(255, 255, 255, 0.14);
+  --text-primary: #E8EDF2;
+  --text-secondary: #9AA8B8;
+  --text-tertiary: #8CA0B5;
+  --text-muted: #72849B;
+  --brand: var(--brand-lift);
+  --brand-strong: #5B8CC4;
+  --brand-soft: rgba(76, 141, 255, 0.12);
+  --brand-lighter: #8FB4E0;
+  --success: var(--sig-alive);
+  --warning: var(--sig-alert);
+  --error: var(--sig-fault);
+  --info: var(--sig-focus);
+
+  /* shadcn 兼容别名同步 */
+  --surface: var(--bg-surface);
+  --surface-2: var(--bg-surface-2);
+  --surface-3: var(--bg-surface-3);
+  --state-success: var(--success);
+  --state-warning: var(--warning);
+  --state-error: var(--error);
+  --state-info: var(--info);
+  --muted: var(--bg-muted);
+  --muted-foreground: var(--text-tertiary);
+  --border: var(--border-default);
+  --input: var(--border-input);
+  --foreground: var(--text-primary);
+  --background: var(--bg-canvas);
+  --card: var(--bg-surface);
+  --card-foreground: var(--text-primary);
+  --popover: var(--bg-surface);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--sig-focus);
+  --primary-foreground: #06131F;
+  --secondary: var(--bg-muted);
+  --secondary-foreground: var(--text-secondary);
+  --accent: var(--bg-muted);
+  --accent-foreground: var(--text-secondary);
+  --destructive: var(--error);
+  --destructive-foreground: #FFFFFF;
+  --ring: var(--sig-focus);
+
+  /* 导航链（侧边栏）深色变量：跟随全局主题 */
+  --nav-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 30%), #101821;
+  --nav-border: rgba(255, 255, 255, 0.07);
+  --nav-text: #C7D2DE;
+  --nav-text-muted: #6F8093;
+  --nav-active-bg: rgba(76, 141, 255, 0.14);
+  --nav-active-text: #8FB6FF;
+  --nav-hover-bg: rgba(255, 255, 255, 0.05);
+  --nav-brand-text: #8FB6FF;
+  /* 指挥区氛围网格线颜色（深色用白线） */
+  --zone-grid-line: rgba(255, 255, 255, 0.022);
+
+  color: var(--text-primary);
+  background-color: var(--ink-900);
+  color-scheme: dark;
+}
+
+/* 指挥区座舱容器：相对定位以承载氛围层（网格/噪点）。
+   不再强制深色 —— 颜色完全跟随全局主题（html.dark）。 */
+.zone-command {
+  position: relative;
+}
+
+/* 座舱氛围层：24px 网格 + 中心径向遮罩（只在视口中部可见，营造玻璃座舱） */
+.zone-command::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(var(--zone-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--zone-grid-line) 1px, transparent 1px);
+  background-size: 24px 24px;
+  -webkit-mask-image: radial-gradient(ellipse 78% 62% at 50% 32%, #000 0%, transparent 100%);
+  mask-image: radial-gradient(ellipse 78% 62% at 50% 32%, #000 0%, transparent 100%);
+}
+
+/* 噪点纹理：消除大面积纯色的塑料感（4% 强度，几乎不可察觉但质感差异明显） */
+.zone-command::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* 仅抬高主内容：跳转链接、抽屉背景和搜索浮层必须保留自身 fixed 定位。
+   广泛覆写子元素会让隐藏跳转链接参与 flex 布局，也会让模态背景脱离视口。 */
+.zone-command > .app-main {
+  position: relative;
+  z-index: 1;
+}
+
+/* ------------------------------------------------------------
+   导航链（nav-rail）：跟随全局主题（亮色浅底 / 暗色深底）
+   ------------------------------------------------------------
+   全站真正切换：侧边栏不再恒定深色，颜色由 --nav-* 变量驱动，
+   这些变量在 :root（浅）与 html.dark（深）中定义。
+   ------------------------------------------------------------ */
+.nav-rail {
+  background: var(--nav-bg);
+  border-color: var(--nav-border);
+  color: var(--nav-text);
+}
+
+/* 导航链内的文本/图标统一走 nav 变量，避免被分区语义变量影响 */
+.nav-rail .text-text-secondary,
+.nav-rail .text-text-tertiary { color: var(--nav-text-muted); }
+.nav-rail .text-text-muted { color: var(--nav-text-muted); }
+.nav-rail .text-text-primary { color: var(--nav-text); }
+.nav-rail .brand-text { color: var(--nav-brand-text); }
+.nav-rail .border-border-default { border-color: var(--nav-border); }
+.nav-rail .hover\:bg-border-subtle:hover,
+.nav-rail .hover\:bg-elevated:hover { background-color: var(--nav-hover-bg); }
+.nav-rail .text-brand-500 { color: var(--nav-active-text); }
+.nav-rail .bg-brand-50 { background-color: var(--nav-active-bg); }
+
+/* ------------------------------------------------------------
+   分区自适应桥接层：让既有页面的硬编码 Tailwind 类在指挥区自动反色
+   ------------------------------------------------------------
+   项目中已有数千处 bg-surface / text-text-primary / border-border-default
+   等硬编码类。若逐页面替换为 var() 形式，改动量巨大且极易遗漏导致穿帮。
+   这里用一层作用域覆写把它们重定向到分区语义变量 ——
+   既有页面无需改动即可正确进入深空仪表，新组件直接用 var() 写法。
+
+   注意：Tailwind utilities 位于 @layer 中，此处未分层的普通 CSS
+   优先级天然更高，无需 !important（与 refinement.css 同原理）。
+   ------------------------------------------------------------ */
+:is(.zone-command, .dark) .bg-canvas { background-color: var(--bg-canvas); }
+:is(.zone-command, .dark) .bg-surface { background-color: var(--bg-surface); }
+:is(.zone-command, .dark) .bg-elevated,
+:is(.zone-command, .dark) .bg-surface-2 { background-color: var(--bg-elevated); }
+:is(.zone-command, .dark) .bg-surface-3 { background-color: var(--bg-surface-3); }
+:is(.zone-command, .dark) .bg-nav-bg { background-color: var(--ink-800); }
+:is(.zone-command, .dark) .bg-white { background-color: var(--bg-surface); }
+
+:is(.zone-command, .dark) .text-text-primary { color: var(--text-primary); }
+:is(.zone-command, .dark) .text-text-secondary { color: var(--text-secondary); }
+:is(.zone-command, .dark) .text-text-tertiary { color: var(--text-tertiary); }
+:is(.zone-command, .dark) .text-text-muted,
+:is(.zone-command, .dark) .text-text-disabled { color: var(--text-muted); }
+
+:is(.zone-command, .dark) .border-border-subtle { border-color: var(--border-subtle); }
+:is(.zone-command, .dark) .border-border-default { border-color: var(--border-default); }
+:is(.zone-command, .dark) .border-border-strong { border-color: var(--border-strong); }
+
+/* 品牌色系在深底需提亮，否则近乎不可见 */
+:is(.zone-command, .dark) .text-brand-500,
+:is(.zone-command, .dark) .text-brand-600,
+:is(.zone-command, .dark) .text-brand-700 { color: var(--brand-lift); }
+:is(.zone-command, .dark) .bg-brand-50 { background-color: rgba(76, 141, 255, 0.10); }
+:is(.zone-command, .dark) .bg-brand-100 { background-color: rgba(76, 141, 255, 0.16); }
+:is(.zone-command, .dark) .border-brand-500 { border-color: var(--brand-lift); }
+:is(.zone-command, .dark) .bg-brand-500,
+:is(.zone-command, .dark) .bg-brand-600 { background-color: var(--sig-focus); }
+:is(.zone-command, .dark) .hover\:bg-brand-600:hover { background-color: #3D7BE8; }
+
+/* 语义色在深底提亮（原色饱和度不足，深底显闷） */
+:is(.zone-command, .dark) .text-success { color: var(--sig-alive); }
+:is(.zone-command, .dark) .text-warning { color: var(--sig-alert); }
+:is(.zone-command, .dark) .text-error { color: var(--sig-fault); }
+:is(.zone-command, .dark) .text-info { color: var(--sig-focus); }
+:is(.zone-command, .dark) .bg-success { background-color: var(--sig-alive); }
+:is(.zone-command, .dark) .bg-warning { background-color: var(--sig-alert); }
+:is(.zone-command, .dark) .bg-error { background-color: var(--sig-fault); }
+:is(.zone-command, .dark) .bg-info { background-color: var(--sig-focus); }
+:is(.zone-command, .dark) .dot-success { background: var(--sig-alive); }
+:is(.zone-command, .dark) .dot-warning { background: var(--sig-alert); }
+:is(.zone-command, .dark) .dot-error { background: var(--sig-fault); }
+:is(.zone-command, .dark) .dot-info { background: var(--sig-focus); }
+
+/* 浅色语义底（success/10 之类的淡色块）在深底需改为低透明信号色 */
+:is(.zone-command, .dark) .bg-success\/10 { background-color: rgba(77, 216, 192, 0.12); }
+:is(.zone-command, .dark) .bg-warning\/10 { background-color: rgba(245, 165, 36, 0.12); }
+:is(.zone-command, .dark) .bg-error\/10 { background-color: rgba(255, 93, 93, 0.12); }
+:is(.zone-command, .dark) .bg-info\/10 { background-color: rgba(76, 141, 255, 0.12); }
+
+/* hover 态背景 */
+:is(.zone-command, .dark) .hover\:bg-elevated:hover { background-color: var(--bg-elevated); }
+:is(.zone-command, .dark) .hover\:bg-border-subtle:hover { background-color: rgba(255, 255, 255, 0.05); }
+:is(.zone-command, .dark) .hover\:bg-surface-2:hover { background-color: var(--bg-surface-2); }
+
+/* ------------------------------------------------------------
+   深色区补充桥接：硬编码浅色 Tailwind 调色板（slate/emerald/amber/red/violet/sky/blue）
+   在暗色下自动转为语义/信号色，避免「白底浅字」隐形与「大面积白框」眩光。
+   与上方桥接层同原理：未分层普通 CSS 优先级天然高于 utilities，无需 !important。
+   ------------------------------------------------------------ */
+/* 中性灰（slate）表面：命令框/徽章底色转暗 */
+:is(.zone-command, .dark) .bg-slate-50 { background-color: var(--bg-elevated); }
+:is(.zone-command, .dark) .bg-slate-100 { background-color: var(--bg-surface-3); }
+:is(.zone-command, .dark) .bg-slate-200 { background-color: var(--bg-surface-3); }
+:is(.zone-command, .dark) .bg-slate-300 { background-color: var(--sig-idle); }
+:is(.zone-command, .dark) .text-slate-500 { color: var(--text-muted); }
+:is(.zone-command, .dark) .text-slate-600 { color: var(--text-secondary); }
+:is(.zone-command, .dark) .border-slate-200 { border-color: var(--border-default); }
+
+/* 状态/工具徽章：浅色淡底 → 低透明信号色 */
+:is(.zone-command, .dark) .bg-emerald-50 { background-color: rgba(77, 216, 192, 0.12); }
+:is(.zone-command, .dark) .bg-emerald-100 { background-color: rgba(77, 216, 192, 0.18); }
+:is(.zone-command, .dark) .bg-emerald-50\/50 { background-color: rgba(77, 216, 192, 0.08); }
+:is(.zone-command, .dark) .bg-amber-50 { background-color: rgba(245, 165, 36, 0.12); }
+:is(.zone-command, .dark) .bg-amber-50\/30 { background-color: rgba(245, 165, 36, 0.08); }
+:is(.zone-command, .dark) .bg-red-50 { background-color: rgba(255, 93, 93, 0.12); }
+:is(.zone-command, .dark) .bg-violet-50 { background-color: rgba(167, 139, 250, 0.14); }
+:is(.zone-command, .dark) .bg-sky-50 { background-color: rgba(56, 189, 248, 0.12); }
+:is(.zone-command, .dark) .bg-blue-50 { background-color: rgba(76, 141, 255, 0.12); }
+
+/* 状态/工具徽章：文字与描边提亮 */
+:is(.zone-command, .dark) .text-emerald-500,
+:is(.zone-command, .dark) .text-emerald-600 { color: var(--sig-alive); }
+:is(.zone-command, .dark) .text-emerald-700 { color: #7DE3CF; }
+:is(.zone-command, .dark) .text-amber-600 { color: var(--sig-alert); }
+:is(.zone-command, .dark) .text-amber-700 { color: #F8B84E; }
+:is(.zone-command, .dark) .text-red-500,
+:is(.zone-command, .dark) .text-red-600 { color: var(--sig-fault); }
+:is(.zone-command, .dark) .text-violet-600 { color: #A78BFA; }
+:is(.zone-command, .dark) .text-sky-600 { color: #38BDF8; }
+:is(.zone-command, .dark) .text-blue-600 { color: var(--sig-focus); }
+
+:is(.zone-command, .dark) .border-emerald-200,
+:is(.zone-command, .dark) .border-emerald-100 { border-color: rgba(77, 216, 192, 0.28); }
+:is(.zone-command, .dark) .border-amber-200,
+:is(.zone-command, .dark) .border-amber-100 { border-color: rgba(245, 165, 36, 0.28); }
+:is(.zone-command, .dark) .border-red-200,
+:is(.zone-command, .dark) .border-red-100 { border-color: rgba(255, 93, 93, 0.28); }
+:is(.zone-command, .dark) .border-violet-200 { border-color: rgba(167, 139, 250, 0.28); }
+:is(.zone-command, .dark) .border-sky-200 { border-color: rgba(56, 189, 248, 0.28); }
+
+/* 相关 hover 态 */
+:is(.zone-command, .dark) .hover\:bg-red-600:hover { background-color: var(--sig-fault); }
+:is(.zone-command, .dark) .hover\:bg-amber-50:hover { background-color: rgba(245, 165, 36, 0.12); }
+
+/* 卡片阴影在深底改为内描边高光 + 深投影 */
+:is(.zone-command, .dark) .shadow-soft {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 1px 2px rgba(0, 0, 0, 0.35),
+    0 8px 24px rgba(0, 0, 0, 0.22);
+}
+:is(.zone-command, .dark) .shadow-lift {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 2px 6px rgba(0, 0, 0, 0.45),
+    0 16px 40px rgba(0, 0, 0, 0.32);
+}
+:is(.zone-command, .dark) .shadow-focus { box-shadow: 0 0 0 3px rgba(76, 141, 255, 0.28); }
+
+/* 品牌渐变在深底改为仪表冷调 */
+:is(.zone-command, .dark) .bg-brand-gradient {
+  background-image: linear-gradient(135deg, #1B2A3D 0%, #0F1620 100%);
+}
+:is(.zone-command, .dark) .bg-brand-gradient-soft {
+  background-image: linear-gradient(135deg, rgba(76, 141, 255, 0.10) 0%, rgba(76, 141, 255, 0.04) 100%);
+}
+
+/* 表单控件（仅全局暗色模式：亮色下跟随主题默认值） */
+.dark input,
+.dark textarea,
+.dark select {
+  background-color: var(--ink-800);
+  border-color: var(--border-input);
+  color: var(--text-primary);
+}
+.dark input::placeholder,
+.dark textarea::placeholder { color: var(--text-muted); }
+
+/* ------------------------------------------------------------
+   仪表面板：深色下用内描边高光模拟金属面板受光
+   ------------------------------------------------------------ */
+.instrument-panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+:is(.zone-command, .dark) .instrument-panel {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035) 0%, transparent 42%), var(--ink-700);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 1px 2px rgba(0, 0, 0, 0.4),
+    0 12px 32px rgba(0, 0, 0, 0.28);
+}
+:is(.zone-command, .dark) .instrument-panel:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* 磨砂玻璃浮层（抽屉/弹窗/悬浮卡） */
+:is(.zone-command, .dark) .glass-layer {
+  background: rgba(21, 28, 38, 0.78);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+/* ------------------------------------------------------------
+   仪表标签：mono + 全大写 + 宽字距（仪表盘美学的正宗表达）
+   ------------------------------------------------------------ */
+.instrument-label {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+/* 仪表读数：等宽数字防止跳动 */
+.instrument-readout {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  letter-spacing: -0.02em;
+}
+
+/* ------------------------------------------------------------
+   信号色工具类（深浅两区通用，浅色区自动回退到语义色）
+   ------------------------------------------------------------ */
+.sig-alive { color: var(--sig-alive, #16A34A); }
+.sig-focus { color: var(--sig-focus, #2563EB); }
+.sig-alert { color: var(--sig-alert, #D97706); }
+.sig-fault { color: var(--sig-fault, #DC2626); }
+.sig-idle  { color: var(--sig-idle, #8A8A8A); }
+
+.sig-bg-alive { background-color: var(--sig-alive, #16A34A); }
+.sig-bg-focus { background-color: var(--sig-focus, #2563EB); }
+.sig-bg-alert { background-color: var(--sig-alert, #D97706); }
+.sig-bg-fault { background-color: var(--sig-fault, #DC2626); }
+.sig-bg-idle  { background-color: var(--sig-idle, #8A8A8A); }
+
+/* 信号辉光：深色区才发光，浅色区自动退化为无光（避免浅底泛脏） */
+:is(.zone-command, .dark) .sig-glow-alive { box-shadow: 0 0 20px -3px var(--sig-alive); }
+:is(.zone-command, .dark) .sig-glow-focus { box-shadow: 0 0 20px -3px var(--sig-focus); }
+:is(.zone-command, .dark) .sig-glow-alert { box-shadow: 0 0 20px -3px var(--sig-alert); }
+:is(.zone-command, .dark) .sig-glow-fault { box-shadow: 0 0 20px -3px var(--sig-fault); }
+
+/* 信号呼吸：运行中状态的生命感 */
+.sig-breathe {
+  animation: sigBreathe 2.6s ease-in-out infinite;
+}
+@keyframes sigBreathe {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(0.9); }
+}
+
+/* ------------------------------------------------------------
+   L3 高光动画：座舱上电（进入指挥区时的仪表启动序列）
+   ------------------------------------------------------------ */
+.zone-command.zone-booting {
+  animation: cockpitBoot 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes cockpitBoot {
+  0% { filter: brightness(0.35) saturate(0.4); }
+  55% { filter: brightness(1.06) saturate(1.1); }
+  100% { filter: brightness(1) saturate(1); }
+}
+
+/* 仪表元素逐个点亮（配合 stagger delay 使用） */
+.instrument-ignite {
+  animation: instrumentIgnite 460ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+@keyframes instrumentIgnite {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* 数据流扫描线（编译进行中的管道流光） */
+.scan-sweep {
+  position: relative;
+  overflow: hidden;
+}
+.scan-sweep::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--sig-focus, #2563EB) 48%,
+    transparent 100%
+  );
+  opacity: 0.16;
+  transform: translateX(-100%);
+  animation: scanSweep 2.1s ease-in-out infinite;
+}
+@keyframes scanSweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* 深色区滚动条适配（仅全局暗色模式） */
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.14);
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.24);
+}
+
+/* 深色区骨架屏适配（仅全局暗色模式） */
+.dark .skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 25%,
+    rgba(255, 255, 255, 0.09) 50%,
+    rgba(255, 255, 255, 0.04) 75%
+  );
+  background-size: 200% 100%;
+}
+
+/* 深色区流动虚线/节点脉冲改用信号色（原品牌深蓝在深底不可见） */
+:is(.zone-command, .dark) .flow-dash { stroke: var(--sig-focus); }
+:is(.zone-command, .dark) .wf-node-active {
+  animation: wfNodeActiveDark 2.4s ease-out infinite;
+}
+@keyframes wfNodeActiveDark {
+  0% { box-shadow: 0 0 0 0 rgba(77, 216, 192, 0.42); }
+  70% { box-shadow: 0 0 0 12px rgba(77, 216, 192, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(77, 216, 192, 0); }
+}
+:is(.zone-command, .dark) .pipeline-pulse {
+  animation: pipelinePulseDark 2.4s ease-out infinite;
+}
+@keyframes pipelinePulseDark {
+  0% { box-shadow: 0 0 0 0 rgba(76, 141, 255, 0.40); }
+  70% { box-shadow: 0 0 0 10px rgba(76, 141, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(76, 141, 255, 0); }
+}
+:is(.zone-command, .dark) .pulse-navy {
+  animation: pulseSignal 2s ease-in-out infinite;
+}
+@keyframes pulseSignal {
+  0%, 100% { opacity: 1; filter: drop-shadow(0 0 0 rgba(77, 216, 192, 0)); }
+  50% { opacity: 0.72; filter: drop-shadow(0 0 8px rgba(77, 216, 192, 0.75)); }
+}
+
+/* 深色区顶部进度条改用信号色 */
+:is(.zone-command, .dark) .top-progress-bar {
+  background: linear-gradient(90deg, var(--sig-focus), var(--sig-alive), var(--sig-focus));
+  background-size: 200% 100%;
+}
+
+/* 深色区代码高亮反色（GitHub Dark 风格） */
+:is(.zone-command, .dark) .hljs { color: #C9D1D9; }
+:is(.zone-command, .dark) .hljs-comment,
+:is(.zone-command, .dark) .hljs-quote { color: #8B949E; }
+:is(.zone-command, .dark) .hljs-keyword,
+:is(.zone-command, .dark) .hljs-selector-tag,
+:is(.zone-command, .dark) .hljs-literal,
+:is(.zone-command, .dark) .hljs-type,
+:is(.zone-command, .dark) .hljs-name { color: #FF7B72; }
+:is(.zone-command, .dark) .hljs-string,
+:is(.zone-command, .dark) .hljs-attr,
+:is(.zone-command, .dark) .hljs-symbol,
+:is(.zone-command, .dark) .hljs-bullet,
+:is(.zone-command, .dark) .hljs-addition { color: #A5D6FF; }
+:is(.zone-command, .dark) .hljs-title,
+:is(.zone-command, .dark) .hljs-section { color: #D2A8FF; }
+:is(.zone-command, .dark) .hljs-number,
+:is(.zone-command, .dark) .hljs-deletion { color: #79C0FF; }
+:is(.zone-command, .dark) .hljs-built_in,
+:is(.zone-command, .dark) .hljs-title.class_ { color: #FFA657; }
+
+/* ============================================================
+   无障碍：尊重系统「减少动态效果」偏好
+   ------------------------------------------------------------
+   路演现场与评委远程体验都可能开启该设置，必须优雅降级：
+   保留状态可见性（opacity 过渡），去除位移/缩放/无限循环动画。
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .flow-dash,
+  .wf-node-active,
+  .pipeline-pulse,
+  .pulse-navy,
+  .sig-breathe,
+  .skeleton,
+  .top-progress-bar,
+  .scan-sweep::after,
+  .typing-dot {
+    animation: none !important;
+  }
+
+  .instrument-ignite,
+  .zone-command.zone-booting {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  button:active:not(:disabled) {
+    transform: none;
+  }
+}
+
+/* ============================================================
+   v5 Calm Command — 产品级体验统一层
+   ------------------------------------------------------------
+   该层以语义 token 驱动共享 shell 与基础组件，避免在业务页面
+   增加视觉分叉。强调可读性、状态清晰度与克制的材料层级。
+   ============================================================ */
+:root,
+.light {
+  --shell-border: rgba(15, 23, 42, 0.08);
+  --shell-muted: #F2F5F8;
+  --shell-header: rgba(250, 251, 252, 0.84);
+  --surface-raised: #FFFFFF;
+  --surface-sunken: #F5F7F8;
+  --surface-tint: rgba(30, 58, 95, 0.045);
+  --elevation-1: 0 1px 2px rgba(27, 42, 63, 0.03), 0 12px 32px rgba(27, 42, 63, 0.045);
+  --elevation-2: 0 2px 6px rgba(27, 42, 63, 0.05), 0 18px 44px rgba(27, 42, 63, 0.09);
+  --focus-ring: rgba(26, 108, 255, 0.28);
+}
+
+html.dark {
+  --shell-border: rgba(255, 255, 255, 0.09);
+  --shell-muted: #111923;
+  --shell-header: rgba(15, 20, 28, 0.78);
+  --surface-raised: #151C26;
+  --surface-sunken: #0F141C;
+  --surface-tint: rgba(143, 180, 224, 0.07);
+  --elevation-1: 0 1px 0 rgba(255, 255, 255, 0.04), 0 18px 40px rgba(0, 0, 0, 0.18);
+  --elevation-2: 0 1px 0 rgba(255, 255, 255, 0.06), 0 24px 56px rgba(0, 0, 0, 0.28);
+  --focus-ring: rgba(143, 180, 224, 0.34);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(circle at 72% -12%, rgba(30, 58, 95, 0.055), transparent 30rem),
+    var(--bg-canvas);
+}
+
+::selection {
+  color: #FFFFFF;
+  background: var(--brand);
+}
+
+.app-shell {
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 92% 0%, rgba(26, 108, 255, 0.05), transparent 28rem),
+    var(--bg-canvas);
+}
+
+.app-sidebar {
+  background: var(--shell-muted);
+  border-color: var(--shell-border) !important;
+  box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.28);
+}
+
+html.dark .app-sidebar {
+  box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.025);
+}
+
+.app-header {
+  background: var(--shell-header) !important;
+  border-color: var(--shell-border) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.app-content {
+  max-width: 88rem !important;
+  padding-top: 2rem !important;
+  padding-bottom: 3.5rem !important;
+}
+
+.ui-card {
+  background: var(--surface-raised) !important;
+  border-color: var(--shell-border) !important;
+  box-shadow: var(--elevation-1);
+}
+
+.ui-card--interactive:hover {
+  border-color: color-mix(in srgb, var(--brand) 24%, var(--shell-border)) !important;
+  box-shadow: var(--elevation-2);
+}
+
+.ui-card--interactive:focus-visible {
+  box-shadow: 0 0 0 4px var(--focus-ring), var(--elevation-1);
+}
+
+.ui-control {
+  min-height: 2.5rem;
+  border-radius: 0.75rem;
+  transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1), background-color 180ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color 180ms cubic-bezier(0.2, 0.8, 0.2, 1), color 180ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.ui-control:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.ui-context-kicker {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.ui-page-title {
+  font-size: clamp(1.375rem, 1.1rem + 0.75vw, 1.875rem);
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  line-height: 1.12;
+  color: var(--text-primary);
+  text-wrap: balance;
+}
+
+.ui-page-description {
+  max-width: 62ch;
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.ui-nav-item {
+  min-height: 2.375rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-weight: 400;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.ui-nav-item:hover {
+  transform: none;
+  background-color: var(--nav-hover-bg);
+  color: var(--nav-text);
+}
+
+.ui-nav-item--active {
+  background: var(--nav-active-bg) !important;
+  border-color: transparent !important;
+  box-shadow: inset 2px 0 0 #1F4FD8 !important;
+  color: var(--nav-text) !important;
+  font-weight: 500 !important;
+}
+
+.ui-nav-item:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.ui-tab-rail {
+  display: inline-flex;
+  max-width: 100%;
+  gap: 0.25rem;
+  overflow-x: auto;
+  padding: 0.25rem;
+  border: 1px solid var(--shell-border);
+  border-radius: 0.875rem;
+  background: var(--surface-sunken);
+  scrollbar-width: none;
+}
+
+.ui-tab-rail::-webkit-scrollbar { display: none; }
+
+.ui-tab-item {
+  min-height: 2.25rem;
+  border-radius: 0.625rem;
+  white-space: nowrap;
+  transition: background-color 160ms cubic-bezier(0.2, 0.8, 0.2, 1), color 160ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 160ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.ui-tab-item--active {
+  background: var(--surface-raised) !important;
+  color: var(--text-primary) !important;
+  box-shadow: 0 1px 2px rgba(27, 42, 63, 0.06);
+}
+
+@media (max-width: 767px) {
+  .app-content {
+    padding-top: 1.25rem !important;
+    padding-bottom: 2rem !important;
+  }
+
+  .app-header {
+    min-height: 3.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-control,
+  .ui-nav-item,
+  .ui-tab-item {
+    transition-duration: 0.01ms !important;
+  }
+
+  .ui-nav-item:hover {
+    transform: none;
+  }
+}

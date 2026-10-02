@@ -1,0 +1,377 @@
+# ============================================================
+# AutoTeams 开发环境 docker-compose
+# 生产环境请使用 docker-compose.prod.yml。
+#
+# 规范（与 docker-compose.prod.yml 对齐）：
+# 1. 容器名统一 autoteams-* 前缀，便于与 AutoTeams 时代残留区分
+# 2. 网络统一 autoteams-network
+# 3. 安全基线：全部服务 no-new-privileges；应用服务额外 cap_drop: ALL
+#    （postgres/redis/chromadb 需 capabilities 切换数据目录属主，故不施加
+#      cap_drop，与 prod 的处理方式保持一致）
+# ============================================================
+services:
+  frontend:
+    container_name: autoteams-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "${FRONTEND_PORT:-3000}:8080"
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      - VITE_API_BASE_URL=${VITE_API_BASE_URL:-http://localhost:8000}
+    networks:
+      - autoteams-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+  backend:
+    container_name: autoteams-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      redis-security:
+        condition: service_healthy
+      chromadb:
+        condition: service_started
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-autoteams}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD required}@postgres:5432/${POSTGRES_DB:-autoteams}
+      - USE_SQLITE=false
+      - REDIS_URL=redis://:${REDIS_PASSWORD:?REDIS_PASSWORD required}@redis:6379/0
+      - TOKEN_BLACKLIST_REDIS_URL=redis://:${REDIS_PASSWORD:?REDIS_PASSWORD required}@redis-security:6379/0
+      - CHROMA_HOST=chromadb
+      - CHROMA_PORT=8000
+      - CHROMA_AUTH_TOKEN=${CHROMA_AUTH_TOKEN:-}
+      - LANGGRAPH_CHECKPOINT_PATH=/app/data/langgraph_checkpoints.sqlite
+      - WORKERS_ENABLED=true
+      - WORKER_ROLES=compilation,agent_build,processing
+      - COLLAB_SERVICE_URL=http://collaboration-service:3001
+      - BRIDGE_INTERNAL_SECRET=${BRIDGE_INTERNAL_SECRET:-}
+      - RUNNER_PUBLIC_BRIDGE_URL=${RUNNER_PUBLIC_BRIDGE_URL:-}
+    volumes:
+      - uploads_data:/app/uploads
+      - langgraph_data:/app/data
+    networks:
+      - autoteams-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+  # 耐久编译 Worker：只从数据库领取 queued/租约过期的编译 Job。
+  # 与 API 进程独立，Web 重启或横向扩展不会丢失执行中的编译任务。
+  compilation-worker:
+    container_name: autoteams-compilation-worker
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: ["python", "-m", "scripts.run_compilation_worker"]
+    depends_on:
+      # API readiness 等待 worker 心跳；worker 不能反向等待 API ready。
+      backend:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      redis-security:
+        condition: service_healthy
+      chromadb:
+        condition: service_started
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-autoteams}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD required}@postgres:5432/${POSTGRES_DB:-autoteams}
+      - USE_SQLITE=false
+      - REDIS_URL=redis://:${REDIS_PASSWORD:?REDIS_PASSWORD required}@redis:6379/0
+      - TOKEN_BLACKLIST_REDIS_URL=redis://:${REDIS_PASSWORD:?REDIS_PASSWORD required}@redis-security:6379/0
+      - CHROMA_HOST=chromadb
+      - CHROMA_PORT=8000
+      - CHROMA_AUTH_TOKEN=${CHROMA_AUTH_TOKEN:-}
+      - LANGGRAPH_CHECKPOINT_PATH=/app/data/langgraph_checkpoints.sqlite
+      - WORKER_HEARTBEAT_DIR=/app/data
+    volumes:
+      - uploads_data:/app/uploads
+      - langgraph_data:/app/data
+    networks:
+      - autoteams-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+    # AUD-29: worker 不监听 HTTP 端口，backend 镜像自带的 :8000 探针对它永远失败。
+    # 改为检查本进程写出的队列消费心跳 + 数据库连通性。
+    healthcheck:
+      test: ["CMD", "python", "-m", "scripts.worker_healthcheck", "compilation"]
+      interval: 30s
+      timeout: 15s
+      start_period: 40s
+      retries: 3
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+  # 耐久文档处理 Worker（AUD-17）：从数据库领取 pending 任务，持有租约执行。
+  # 执行不再挂在 API 进程内，因此 API 重启/扩容不会丢失或误伤处理任务。
+  processing-worker:
+    container_name: autoteams-processing-worker
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: ["python", "-m", "scripts.run_processing_worker"]
+    depends_on:
+      # API readiness 等待 worker 心跳；worker 不能反向等待 API ready。
+      backend:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      redis-security:
+        condition: service_healthy
+      chromadb:
+        condition: service_started
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-autoteams}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD required}@postgres:5432/${POSTGRES_DB:-autoteams}
+      - USE_SQLITE=false
+      - REDIS_URL=redis://:${REDIS_PASSWORD:?REDIS_PASSWORD required}@redis:6379/0
+      - TOKEN_BLACKLIST_REDIS_URL=redis://:${REDIS_PASSWORD:?REDIS_PASSWORD required}@redis-security:6379/0
+      - CHROMA_HOST=chromadb
+      - CHROMA_PORT=8000
+      - CHROMA_AUTH_TOKEN=${CHROMA_AUTH_TOKEN:-}
+      - LANGGRAPH_CHECKPOINT_PATH=/app/data/langgraph_checkpoints.sqlite
+      - WORKER_HEARTBEAT_DIR=/app/data
+    volumes:
+      - uploads_data:/app/uploads
+      - langgraph_data:/app/data
+    networks:
+      - autoteams-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    # AUD-29: worker 不监听 HTTP 端口，改为检查队列消费心跳 + 数据库连通性。
+    healthcheck:
+      test: ["CMD", "python", "-m", "scripts.worker_healthcheck", "processing"]
+      interval: 30s
+      timeout: 15s
+      start_period: 40s
+      retries: 3
+
+  # 耐久 Agent 构建 Worker：执行 LangGraph、文件扫描和向量化，不占用 HTTP 请求。
+  agent-build-worker:
+    container_name: autoteams-agent-build-worker
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: ["python", "-m", "scripts.run_agent_build_worker"]
+    depends_on:
+      # API readiness 等待 worker 心跳；worker 不能反向等待 API ready。
+      backend:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      redis-security:
+        condition: service_healthy
+      chromadb:
+        condition: service_started
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-autoteams}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD required}@postgres:5432/${POSTGRES_DB:-autoteams}
+      - USE_SQLITE=false
+      - REDIS_URL=redis://:${REDIS_PASSWORD:?REDIS_PASSWORD required}@redis:6379/0
+      - TOKEN_BLACKLIST_REDIS_URL=redis://:${REDIS_PASSWORD:?REDIS_PASSWORD required}@redis-security:6379/0
+      - CHROMA_HOST=chromadb
+      - CHROMA_PORT=8000
+      - CHROMA_AUTH_TOKEN=${CHROMA_AUTH_TOKEN:-}
+      - LANGGRAPH_CHECKPOINT_PATH=/app/data/langgraph_checkpoints.sqlite
+      - WORKER_HEARTBEAT_DIR=/app/data
+    volumes:
+      - uploads_data:/app/uploads
+      - langgraph_data:/app/data
+    networks:
+      - autoteams-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+    # AUD-29: worker 不监听 HTTP 端口，backend 镜像自带的 :8000 探针对它永远失败。
+    # 改为检查本进程写出的队列消费心跳 + 数据库连通性。
+    healthcheck:
+      test: ["CMD", "python", "-m", "scripts.worker_healthcheck", "agent_build"]
+      interval: 30s
+      timeout: 15s
+      start_period: 40s
+      retries: 3
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+  postgres:
+    container_name: autoteams-postgres
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-autoteams}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD required}
+      POSTGRES_DB: ${POSTGRES_DB:-autoteams}
+    expose:
+      - "5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - autoteams-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-autoteams} -d ${POSTGRES_DB:-autoteams}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    security_opt:
+      - no-new-privileges:true
+
+  redis:
+    container_name: autoteams-redis
+    image: redis:7-alpine
+    command: redis-server --requirepass ${REDIS_PASSWORD:?REDIS_PASSWORD required} --maxmemory 256mb --maxmemory-policy allkeys-lru
+    expose:
+      - "6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - autoteams-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    security_opt:
+      - no-new-privileges:true
+
+  # 撤销/重放状态不能被缓存淘汰；独立进程与持久卷。
+  redis-security:
+    image: redis:7-alpine
+    command: redis-server --requirepass ${REDIS_PASSWORD:?REDIS_PASSWORD required} --maxmemory 128mb --maxmemory-policy noeviction --appendonly yes --appendfsync always
+    expose:
+      - "6379"
+    volumes:
+      - redis_security_data:/data
+    networks:
+      - autoteams-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    security_opt:
+      - no-new-privileges:true
+
+  chromadb:
+    container_name: autoteams-chromadb
+    image: chromadb/chroma:1.5.9
+    expose:
+      - "8000"
+    volumes:
+      - chroma_data:/data
+    environment:
+      - IS_PERSISTENT=TRUE
+    networks:
+      - autoteams-network
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+
+  collaboration-service:
+    container_name: autoteams-collaboration-service
+    build:
+      context: ./collaboration-service
+      dockerfile: Dockerfile
+    expose:
+      - "3001"
+    environment:
+      - COLLAB_PORT=3001
+      - AUTOTEAMS_BACKEND_URL=http://backend:8000
+      - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-http://localhost:3000}
+      - AGNES_API_KEY=${AGNES_API_KEY:-}
+      - AGNES_TEXT_MODEL=${AGNES_TEXT_MODEL:-agnes-2.5-flash}
+      - BRIDGE_INTERNAL_SECRET=${BRIDGE_INTERNAL_SECRET:-}
+      - COLLAB_STATE_FILE=/app/data/collaboration-sessions.json
+      # AUD-02 sandbox：默认全部拒绝（允许列表为空 = 不允许任何 bash 命令）。
+      - COLLAB_SANDBOX_BASH_ALLOWLIST=${COLLAB_SANDBOX_BASH_ALLOWLIST:-}
+      - COLLAB_SANDBOX_BASH_TIMEOUT_MS=${COLLAB_SANDBOX_BASH_TIMEOUT_MS:-60000}
+      - COLLAB_SANDBOX_BASH_MAX_OUTPUT_BYTES=${COLLAB_SANDBOX_BASH_MAX_OUTPUT_BYTES:-262144}
+      # 逃生舱默认为 false；置 true 会打印显式告警，仅在已有容器隔离时才开启。
+      - COLLAB_SANDBOX_ALLOW_UNRESTRICTED_BASH=${COLLAB_SANDBOX_ALLOW_UNRESTRICTED_BASH:-false}
+    volumes:
+      - collaboration_data:/app/data
+    networks:
+      - autoteams-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+volumes:
+  postgres_data:
+  redis_data:
+  redis_security_data:
+  chroma_data:
+  uploads_data:
+  langgraph_data:
+  collaboration_data:
+
+networks:
+  autoteams-network:
+    driver: bridge

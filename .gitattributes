@@ -1,0 +1,31 @@
+# Shell 脚本必须使用 LF 行尾：Windows 检出（core.autocrlf=true）若转成 CRLF，
+# 会破坏 bash 解析（如 migrate_and_start.sh 的 `set -o pipefail` 报 invalid option name）。
+# 指定 eol=lf 使 git 始终以 LF 检出这些文件，与本地/CI 环境无关。
+*.sh text eol=lf
+
+# 通用文本文件使用原生换行（仓库内统一 LF）
+*.py text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+
+# PDF cross-reference offsets and ZIP members require byte-for-byte checkout.
+*.pdf binary
+*.zip binary
+*.docx binary
+*.xlsx binary
+
+# Historical workspace captures keep their original bytes for MANIFEST.json hashes.
+docs/archive/local-workspace/2026-09-30/** -text whitespace=cr-at-eol
+docs/audit/evidence/2026-09-28/** -text whitespace=cr-at-eol
+scripts/audit/legacy_2026-09-28/** -text whitespace=cr-at-eol
+
+# BP manifests describe exact asset bytes on every checkout, including Linux.
+docs/bp/delin-2026/** -text whitespace=cr-at-eol
+
+# Original founder photo remains byte-for-byte intact.
+*.jfif binary
+
+# Historical design assets and patches preserve relocation manifest hashes.
+docs/design/archive/** -text whitespace=cr-at-eol
+docs/archive/patches/** -text whitespace=cr-at-eol

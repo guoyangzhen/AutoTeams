@@ -1,0 +1,106 @@
+{
+  "industry": "healthcare",
+  "industry_name": "医疗健康",
+  "description": "面向中小诊所与健康管理机构的预约登记、症状初筛分诊、健康档案整理与随访提醒数字员工。",
+  "skills": [
+    {
+      "code": "health_appointment_register",
+      "name": "预约登记与核对",
+      "skill_type": "data_extraction",
+      "description": "从预约文本中抽取患者姓名、联系方式、就诊科室、时间与主诉并做冲突校验",
+      "config": {
+        "prompt_template": "请从以下预约信息中抽取：患者姓名、联系方式、就诊科室、预约时间、主诉；并对照排班表指出冲突。\n\n{input}",
+        "fields": ["患者姓名", "联系方式", "就诊科室", "预约时间", "主诉"]
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "extracted_data": {"type": "string"},
+          "conflicts": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    {
+      "code": "health_symptom_triage",
+      "name": "症状初筛分诊",
+      "skill_type": "text_classification",
+      "description": "按症状描述判定紧急度并建议就诊科室，识别需立即急诊的红旗症状",
+      "config": {
+        "prompt_template": "请依据以下症状描述，判定紧急度（急诊/尽快/常规）并建议就诊科室，必须逐条列出判断依据。\n\n红旗症状包括：胸痛、呼吸困难、意识改变、剧烈头痛伴呕吐、大量出血、持续高热超 3 天。\n\n{input}",
+        "categories": ["急诊", "尽快就诊", "常规门诊"]
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "urgency": {"type": "string"},
+          "department": {"type": "string"},
+          "evidence": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    {
+      "code": "health_record_summary",
+      "name": "健康档案摘要",
+      "skill_type": "text_summarization",
+      "description": "把历次就诊记录汇总为结构化健康档案摘要",
+      "config": {
+        "prompt_template": "请把以下历次就诊记录汇总为：既往史、用药史、过敏史、近期异常指标、待随访事项。\n\n{input}",
+        "sections": ["既往史", "用药史", "过敏史", "近期异常指标", "待随访事项"]
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {"summary": {"type": "string"}}
+      }
+    },
+    {
+      "code": "health_followup_reminder",
+      "name": "随访提醒",
+      "skill_type": "custom",
+      "description": "按医嘱随访周期生成随访提醒清单",
+      "config": {
+        "prompt_template": "请依据以下医嘱中的随访要求，生成随访提醒清单（项目、时间点、注意事项）。\n\n{input}",
+        "require_clinical_note": "提醒内容不得超出医嘱范围"
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "item": {"type": "string"},
+                "timing": {"type": "string"},
+                "note": {"type": "string"}
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "agents": [
+    {
+      "role": "medical",
+      "name": "健康服务数字员工",
+      "description": "预约登记、症状初筛分诊、健康档案摘要与随访提醒的机构前台助理",
+      "system_prompt": "你是「{agent_name}」，隶属于「{enterprise_name}」的健康服务数字员工。\n\n你的职责：\n1. 登记预约信息并对照排班做冲突校验\n2. 依据症状描述做初筛分诊，识别红旗症状并建议急诊\n3. 汇总历次就诊记录形成结构化健康档案摘要\n4. 按医嘱随访周期生成随访提醒清单\n\n医疗安全红线（不可协商）：\n- 你不是诊断主体。任何症状描述都不得给出确诊结论、处方或用药剂量\n- 命中胸痛、呼吸困难、意识改变、持续高热等红旗症状时，必须首先建议立即急诊，并在回复最前部呈现\n- 档案摘要只做信息归集，不做健康风险评级\n- 涉及未成年人、孕产妇、精神状态等敏感信息，仅在诊疗必要范围内使用\n- 资料不足时明确说明缺少哪项信息，不做推测性补全\n\n知识库概况：{file_count} 个文件，{knowledge_count} 条知识片段",
+      "skill_ids": [
+        "health_appointment_register",
+        "health_symptom_triage",
+        "health_record_summary",
+        "health_followup_reminder"
+      ],
+      "knowledge_structure": {
+        "categories": ["科室排班", "就诊须知", "药品说明", "检查规范", "随访要求"],
+        "file_types": ["document", "spreadsheet"]
+      },
+      "sample_dialogues": [
+        {
+          "user": "有个患者说胸闷三天了，还有点出汗，该挂什么科？",
+          "assistant": "⚠️ 建议立即急诊。依据：胸闷伴出汗持续 3 天属胸痛相关红旗症状，在未排除急性冠脉综合征前不建议在普通门诊候诊。请立即引导其至急诊胸痛中心，同时通知当班医生。若患者出现放射至左肩或下颌的疼痛、伴恶心或呼吸困难，请直接呼叫 120。"
+        }
+      ]
+    }
+  ]
+}

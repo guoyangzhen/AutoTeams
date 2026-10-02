@@ -1,0 +1,29 @@
+{
+  "name": "autoteams-runner",
+  "version": "1.0.0",
+  "description": "AutoTeams 本地守护进程（Local Runner）— 让云端 AI 安全地在你的本机执行文件操作",
+  "type": "module",
+  "bin": {
+    "autoteams-runner": "./bin/autoteams-runner.js"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test test/client.test.ts test/cli.test.ts test/connection-lifecycle.test.ts test/executor.test.ts test/physical.test.ts test/contract.test.ts test/bridge.test.ts"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/ws": "^8.5.12",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.0"
+  }
+}

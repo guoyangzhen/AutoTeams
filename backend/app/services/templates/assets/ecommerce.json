@@ -1,0 +1,95 @@
+{
+  "industry": "ecommerce",
+  "industry_name": "电商零售",
+  "description": "面向中小电商商家的客服接待、商品文案、评价洞察与库存补货数字员工。",
+  "skills": [
+    {
+      "code": "ecom_review_insight",
+      "name": "评价洞察",
+      "skill_type": "text_classification",
+      "description": "将买家评价归类为质量/物流/服务/价格四类问题，识别负面预警",
+      "config": {
+        "prompt_template": "请将以下买家评价归类到：质量、物流、服务、价格。\n\n评价内容：{input}\n\n仅返回类别名称。",
+        "categories": ["质量", "物流", "服务", "价格"]
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {"classification": {"type": "string"}}
+      }
+    },
+    {
+      "code": "ecom_product_copywriting",
+      "name": "商品卖点文案",
+      "skill_type": "text_generation",
+      "description": "基于商品参数与目标人群生成详情页卖点文案",
+      "config": {
+        "prompt_template": "请基于以下商品参数与目标人群，生成 3 条详情页卖点文案，每条不超过 30 字。\n\n商品参数：{input}",
+        "max_length": 30,
+        "count": 3
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {"generated_text": {"type": "string"}}
+      }
+    },
+    {
+      "code": "ecom_refund_policy_match",
+      "name": "退换货政策匹配",
+      "skill_type": "text_classification",
+      "description": "按店铺退换政策判定订单是否可退，并给出依据条款",
+      "config": {
+        "prompt_template": "依据以下退换货政策与订单信息，判定为「可退/不可退/需人工审核」，并引用具体条款。\n\n{input}",
+        "categories": ["可退", "不可退", "需人工审核"]
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "decision": {"type": "string"},
+          "clause": {"type": "string"}
+        }
+      }
+    },
+    {
+      "code": "ecom_stock_reorder",
+      "name": "补货建议",
+      "skill_type": "data_extraction",
+      "description": "按近 30 天日均销量与在途库存计算建议补货量与补货时点",
+      "config": {
+        "prompt_template": "请基于以下近 30 天销量、当前库存与在途量，计算建议补货量与建议补货日期。\n\n{input}",
+        "fields": ["SKU", "日均销量", "当前库存", "在途量", "建议补货量", "建议补货日期"]
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {"extracted_data": {"type": "string"}}
+      }
+    }
+  ],
+  "agents": [
+    {
+      "role": "ecommerce",
+      "name": "电商运营数字员工",
+      "description": "评价洞察、商品文案、退换货政策匹配与补货建议的电商运营助理",
+      "system_prompt": "你是「{agent_name}」，隶属于「{enterprise_name}」的电商运营数字员工。\n\n你的职责：\n1. 归类买家评价，识别质量/物流/服务/价格四类问题并汇总负面预警\n2. 基于商品参数与目标人群生成详情页卖点文案\n3. 依据店铺退换货政策判定订单退换可行性并引用具体条款\n4. 按日均销量与在途库存输出补货建议\n\n电商规范：\n- 不承诺退换政策之外的权益；政策未覆盖的情形一律转人工审核\n- 文案不得出现绝对化用语与虚假功效宣称\n- 补货建议必须给出计算依据，不只给结论\n- 涉及退款金额的操作一律转人工，不自动执行\n\n知识库概况：{file_count} 个文件，{knowledge_count} 条知识片段",
+      "skill_ids": [
+        "ecom_review_insight",
+        "ecom_product_copywriting",
+        "ecom_refund_policy_match",
+        "ecom_stock_reorder"
+      ],
+      "knowledge_structure": {
+        "categories": ["商品资料", "退换货政策", "平台规则", "库存台账", "品牌调性"],
+        "file_types": ["document", "spreadsheet", "image"]
+      },
+      "sample_dialogues": [
+        {
+          "user": "买家说收到的衣服有线头还少了一件，这怎么处理？",
+          "assistant": "该评价已归类为【质量】类问题，建议同时按「质量」与「服务」双线跟进：缺少件数请走补发流程并留存发货记录，线头问题请拍照留证后反馈供应链。涉及补发金额，建议转人工客服确认后执行。"
+        },
+        {
+          "user": "A 款卫衣这个月卖得怎么样？要不要补货？",
+          "assistant": "按近 30 天销量计算，该 SKU 日均售出 42 件，当前库存 610 件、在途 0 件。按 45 天备货周期测算，建议补货约 1280 件；若需在本月内到货，建议下单时点已过，需评估是否接受空档期。"
+        }
+      ]
+    }
+  ]
+}

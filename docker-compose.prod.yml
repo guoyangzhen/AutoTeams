@@ -1,0 +1,607 @@
+# ============================================================
+# P1-07: 生产环境 docker-compose
+#
+# 与 docker-compose.yml（开发）的关键差异：
+# 1. 后端不暴露宿主机端口 —— 仅通过 frontend nginx 反向代理访问
+# 2. 所有容器 security_opt: no-new-privileges —— 防止提权
+# 3. 后端/前端 read_only: true —— 只读根文件系统，仅指定目录可写
+# 4. 日志卷挂载 —— P1-06 结构化日志持久化到宿主机
+# 5. Docker json-file 日志驱动限制 —— 防止日志撑爆磁盘
+# 6. 更高的资源限制 + 更长的健康检查启动期
+# 7. restart: always（生产环境宕机必须自动恢复）
+# 8. P0-3: 前端/后端/协作服务从 GHCR 拉取预构建镜像（CI 推送），而非本地 build
+#
+# 使用方式：
+#   cp .env.prod.example .env.prod  # 然后填写生产凭证
+#   docker compose -f docker-compose.prod.yml --env-file .env.prod pull
+#   docker compose -f docker-compose.prod.yml --env-file .env.prod up -d
+# ============================================================
+
+services:
+  frontend:
+    # P0-3: 从 GHCR 拉取预构建镜像（CI 推送），而非本地 build
+    # 镜像名通过环境变量配置，默认指向 GHCR
+    image: ${FRONTEND_IMAGE:-ghcr.io/owner/autoteams-frontend:latest}
+    ports:
+      - "${FRONTEND_PORT:-80}:8080"
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      - VITE_API_BASE_URL=${VITE_API_BASE_URL:-/}
+    networks:
+      - autoteams-network
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+    # P1-07: 安全加固
+    security_opt:
+      - no-new-privileges:true
+    # P2-T12: 丢弃所有 Linux capabilities，遵循最小权限原则
+    cap_drop:
+      - ALL
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/cache/nginx
+      - /var/run
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # AUD-19：迁移专用的一次性服务。
+  #
+  # 唯一持有数据库**管理员**口令的运行服务。backend 与三个 worker 通过
+  # `service_completed_successfully` 阻塞，因此不会再出现"API 容器自己拿管理员
+  # 连接跑迁移"或"用未迁移的库启动服务"。
+  #
+  # 入口是 `scripts.migrate_cli` 而不是裸 `alembic`：alembic 的 env.py 会 import
+  # app.config，生产 DEBUG=false 下缺少 HTTP 配置会直接拒绝启动；该 CLI 在**本进程**
+  # 内补齐这些与 DDL 无关的项，不打开 DEBUG、不修改任何既有守卫。
+  #
+  # 迁移创建三个受限 LOGIN 角色但**不设置口令**，因此升级成功后由本服务用管理员
+  # 连接显式设置 —— 这三个口令在这里是必要且最小化的例外。
+  #
+  # 生产绝不写入演示数据（SEED_DEMO=0），因此不调用 seed_* 脚本。
+  migrate:
+    image: ${BACKEND_IMAGE:-ghcr.io/owner/autoteams-backend:latest}
+    command: ["python", "-m", "scripts.migrate_cli"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # 管理员连接仅用于 DDL 与设置受限角色口令。运行服务一律不使用它。
+      - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-autoteams}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD required}@postgres:5432/${POSTGRES_DB:-autoteams}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?POSTGRES_PASSWORD required}
+      # 迁移成功后写库的三个受限角色口令（失败即非零退出，不会带着空口令启动）
+      - APP_DB_PASSWORD=${APP_DB_PASSWORD:?APP_DB_PASSWORD required}
+      - WORKER_DB_PASSWORD=${WORKER_DB_PASSWORD:?WORKER_DB_PASSWORD required}
+      - BOOTSTRAP_DB_PASSWORD=${BOOTSTRAP_DB_PASSWORD:?BOOTSTRAP_DB_PASSWORD required}
+      - DEBUG=false
+      - USE_SQLITE=false
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+      # read_only 根文件系统下日志目录必须可写；迁移只写 /tmp，不挂卷。
+      - LOG_DIR=/tmp/logs
+    networks:
+      - autoteams-network
+    # 一次性任务：成功后不再重启
+    restart: "no"
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    tmpfs:
+      - /tmp
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  backend:
+    # P0-3: 从 GHCR 拉取预构建镜像（CI 推送），而非本地 build
+    image: ${BACKEND_IMAGE:-ghcr.io/owner/autoteams-backend:latest}
+    # P1-07: 生产环境后端不直接暴露端口
+    # 所有外部流量通过 frontend nginx 反向代理 /api/ → backend:8000
+    expose:
+      - "8000"
+    depends_on:
+      # 先迁移成功，再谈服务可用性
+      migrate:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      redis-security:
+        condition: service_healthy
+      chromadb:
+        condition: service_started
+    env_file:
+      # 只注入应用层密钥。.env.prod 不再包含任何数据库口令，数据库凭据全部
+      # 通过下面的 environment URL 显式下发到需要它的那一个服务。
+      - .env.prod
+    # 镜像默认 CMD 是 `bash scripts/migrate_and_start.sh`（先迁移再 uvicorn）。
+    # 迁移已拆到独立 migrate 服务，这里显式覆盖，避免 API 再拿管理员连接迁移。
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1", "--no-server-header"]
+    environment:
+      # AUD-19：API 运行身份 = autoteams_app。它**没有**任何跨租户队列能力，
+      # 领取/恢复函数对它返回 42501（见 backend/docs/RLS_DEPLOYMENT.md）。
+      - DATABASE_URL=postgresql+asyncpg://autoteams_app:${APP_DB_PASSWORD:?APP_DB_PASSWORD required}@postgres:5432/${POSTGRES_DB:-autoteams}
+      - DATABASE_APP_ROLE=autoteams_app
+      # 渠道回调引导连接：只读指定账号的验签材料，没有任何表权限。
+      # 明确配置，且**只**属于本服务，不下发到任何 worker / 前端 / 协作服务。
+      - DATABASE_BOOTSTRAP_URL=postgresql+asyncpg://autoteams_bootstrap:${BOOTSTRAP_DB_PASSWORD:?BOOTSTRAP_DB_PASSWORD required}@postgres:5432/${POSTGRES_DB:-autoteams}
+      - DATABASE_BOOTSTRAP_ROLE=autoteams_bootstrap
+      # P0-2: 显式设置 USE_SQLITE=false，防止回退到 SQLite
+      - USE_SQLITE=false
+      - REDIS_URL=redis://:${REDIS_PASSWORD:?REDIS_PASSWORD required}@redis:6379/0
+      - TOKEN_BLACKLIST_REDIS_URL=redis://:${REDIS_PASSWORD:?REDIS_PASSWORD required}@redis-security:6379/0
+      - CHROMA_HOST=chromadb
+      - CHROMA_PORT=8000
+      - CHROMA_AUTH_TOKEN=${CHROMA_AUTH_TOKEN:-}
+      # P0-14: checkpoint 持久化到已挂载的卷，避免 read_only 根文件系统无法写入
+      - LANGGRAPH_CHECKPOINT_PATH=/app/data/langgraph_checkpoints.sqlite
+      - WORKERS_ENABLED=true
+      - WORKER_ROLES=compilation,agent_build,processing
+            # P1-07: 生产环境强制关闭 DEBUG
+      - DEBUG=false
+      # 生产数据库严禁自动写入演示账号/向量；隔离演示环境需显式修改编排后启用。
+      - SEED_DEMO=0
+
+      # P1-07: read_only 文件系统兼容：禁止写 .pyc，立即输出日志
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+      # 本地工具桥接：后端经容器网络调用协作服务；共享桥接密钥生产必填（与协作服务一致）
+      - COLLAB_SERVICE_URL=http://collaboration-service:3001
+      - BRIDGE_INTERNAL_SECRET=${BRIDGE_INTERNAL_SECRET:?BRIDGE_INTERNAL_SECRET required}
+      - RUNNER_PUBLIC_BRIDGE_URL=${RUNNER_PUBLIC_BRIDGE_URL:-}
+    volumes:
+      - uploads_data:/app/uploads
+      - langgraph_data:/app/data
+      # P1-06/P1-07: 结构化日志持久化到命名卷，便于外部采集
+      - logs_data:/app/logs
+    networks:
+      - autoteams-network
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 4G
+    # P1-07: 安全加固
+    security_opt:
+      - no-new-privileges:true
+    # P2-T12: 丢弃所有 Linux capabilities，遵循最小权限原则
+    cap_drop:
+      - ALL
+    # 后端运行 ffmpeg/sqlite3 等工具需要少量 capabilities，这里显式添加
+    # ffmpeg 通常不需要特殊 cap；postgres/redis/chroma 以非 root 运行也不需要
+    read_only: true
+    tmpfs:
+      - /tmp
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+    # 耐久编译 Worker：独立领取 PostgreSQL 中 queued/租约过期的 Job，
+  # 不暴露端口，也不依赖 API 进程内后台任务。
+  compilation-worker:
+    image: ${BACKEND_IMAGE:-ghcr.io/owner/autoteams-backend:latest}
+    command: ["python", "-m", "scripts.run_compilation_worker"]
+    depends_on:
+      # AUD-19：迁移必须先成功，队列 Worker 才允许连库
+      migrate:
+        condition: service_completed_successfully
+      # API readiness 等待 worker 心跳；worker 不能反向等待 API ready。
+      backend:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      redis-security:
+        condition: service_healthy
+      chromadb:
+        condition: service_started
+    env_file:
+      - .env.prod
+    environment:
+      # AUD-19：队列 Worker 的运行身份 = autoteams_worker。表权限与 API 角色一致，
+      # 额外持有跨租户领取/恢复函数。这里不发管理员口令，也不发 bootstrap 口令。
+      - DATABASE_URL=postgresql+asyncpg://autoteams_worker:${WORKER_DB_PASSWORD:?WORKER_DB_PASSWORD required}@postgres:5432/${POSTGRES_DB:-autoteams}
+      - DATABASE_WORKER_URL=postgresql+asyncpg://autoteams_worker:${WORKER_DB_PASSWORD:?WORKER_DB_PASSWORD required}@postgres:5432/${POSTGRES_DB:-autoteams}
+      - DATABASE_WORKER_ROLE=autoteams_worker
+      # 本进程内 app.database 的默认引擎就是上面这个连接；生产连接守卫按这个名字
+      # 核验实际身份，所以这里必须与实际角色一致（不是提权，只是"我是谁"）。
+      - DATABASE_APP_ROLE=autoteams_worker
+      - USE_SQLITE=false
+      - REDIS_URL=redis://:${REDIS_PASSWORD:?REDIS_PASSWORD required}@redis:6379/0
+      - TOKEN_BLACKLIST_REDIS_URL=redis://:${REDIS_PASSWORD:?REDIS_PASSWORD required}@redis-security:6379/0
+      - CHROMA_HOST=chromadb
+      - CHROMA_PORT=8000
+      - CHROMA_AUTH_TOKEN=${CHROMA_AUTH_TOKEN:-}
+      - LANGGRAPH_CHECKPOINT_PATH=/app/data/langgraph_checkpoints.sqlite
+      - WORKER_HEARTBEAT_DIR=/app/data
+      - DEBUG=false
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - uploads_data:/app/uploads
+      - langgraph_data:/app/data
+      - logs_data:/app/logs
+    networks:
+      - autoteams-network
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 4G
+    # AUD-29: worker 不监听 HTTP 端口，backend 镜像自带的 :8000 探针对它永远失败。
+    # 改为检查本进程写出的队列消费心跳 + 数据库连通性。
+    healthcheck:
+      test: ["CMD", "python", "-m", "scripts.worker_healthcheck", "compilation"]
+      interval: 30s
+      timeout: 15s
+      start_period: 40s
+      retries: 3
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    tmpfs:
+      - /tmp
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+  # 耐久文档处理 Worker（AUD-17）：从数据库领取 pending 任务，持有租约执行。
+  # 执行不再挂在 API 进程内，因此 API 重启/扩容不会丢失或误伤处理任务。
+  processing-worker:
+    container_name: autoteams-processing-worker
+    image: ${BACKEND_IMAGE:-ghcr.io/owner/autoteams-backend:latest}
+    command: ["python", "-m", "scripts.run_processing_worker"]
+    depends_on:
+      # AUD-19：迁移必须先成功，队列 Worker 才允许连库
+      migrate:
+        condition: service_completed_successfully
+      # API readiness 等待 worker 心跳；worker 不能反向等待 API ready。
+      backend:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      redis-security:
+        condition: service_healthy
+      chromadb:
+        condition: service_started
+    env_file:
+      - .env.prod
+    environment:
+      # AUD-19：同 compilation-worker，队列身份 = autoteams_worker。
+      - DATABASE_URL=postgresql+asyncpg://autoteams_worker:${WORKER_DB_PASSWORD:?WORKER_DB_PASSWORD required}@postgres:5432/${POSTGRES_DB:-autoteams}
+      - DATABASE_WORKER_URL=postgresql+asyncpg://autoteams_worker:${WORKER_DB_PASSWORD:?WORKER_DB_PASSWORD required}@postgres:5432/${POSTGRES_DB:-autoteams}
+      - DATABASE_WORKER_ROLE=autoteams_worker
+      - DATABASE_APP_ROLE=autoteams_worker
+      - USE_SQLITE=false
+      - DEBUG=false
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+      - REDIS_URL=redis://:${REDIS_PASSWORD:?REDIS_PASSWORD required}@redis:6379/0
+      - TOKEN_BLACKLIST_REDIS_URL=redis://:${REDIS_PASSWORD:?REDIS_PASSWORD required}@redis-security:6379/0
+      - CHROMA_HOST=chromadb
+      - CHROMA_PORT=8000
+      - CHROMA_AUTH_TOKEN=${CHROMA_AUTH_TOKEN:-}
+      - LANGGRAPH_CHECKPOINT_PATH=/app/data/langgraph_checkpoints.sqlite
+      - WORKER_HEARTBEAT_DIR=/app/data
+    volumes:
+      - uploads_data:/app/uploads
+      - langgraph_data:/app/data
+    networks:
+      - autoteams-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    # AUD-29: worker 不监听 HTTP 端口，改为检查队列消费心跳 + 数据库连通性。
+    healthcheck:
+      test: ["CMD", "python", "-m", "scripts.worker_healthcheck", "processing"]
+      interval: 30s
+      timeout: 15s
+      start_period: 40s
+      retries: 3
+
+  # 耐久 Agent 构建 Worker：执行 LangGraph 状态图，支持排队与 HITL 恢复。
+  agent-build-worker:
+    image: ${BACKEND_IMAGE:-ghcr.io/owner/autoteams-backend:latest}
+    command: ["python", "-m", "scripts.run_agent_build_worker"]
+    depends_on:
+      # AUD-19：迁移必须先成功，队列 Worker 才允许连库
+      migrate:
+        condition: service_completed_successfully
+      # API readiness 等待 worker 心跳；worker 不能反向等待 API ready。
+      backend:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      redis-security:
+        condition: service_healthy
+      chromadb:
+        condition: service_started
+    env_file:
+      - .env.prod
+    environment:
+      # AUD-19：同 compilation-worker，队列身份 = autoteams_worker。
+      - DATABASE_URL=postgresql+asyncpg://autoteams_worker:${WORKER_DB_PASSWORD:?WORKER_DB_PASSWORD required}@postgres:5432/${POSTGRES_DB:-autoteams}
+      - DATABASE_WORKER_URL=postgresql+asyncpg://autoteams_worker:${WORKER_DB_PASSWORD:?WORKER_DB_PASSWORD required}@postgres:5432/${POSTGRES_DB:-autoteams}
+      - DATABASE_WORKER_ROLE=autoteams_worker
+      - DATABASE_APP_ROLE=autoteams_worker
+      - USE_SQLITE=false
+      - REDIS_URL=redis://:${REDIS_PASSWORD:?REDIS_PASSWORD required}@redis:6379/0
+      - TOKEN_BLACKLIST_REDIS_URL=redis://:${REDIS_PASSWORD:?REDIS_PASSWORD required}@redis-security:6379/0
+      - CHROMA_HOST=chromadb
+      - CHROMA_PORT=8000
+      - CHROMA_AUTH_TOKEN=${CHROMA_AUTH_TOKEN:-}
+      - LANGGRAPH_CHECKPOINT_PATH=/app/data/langgraph_checkpoints.sqlite
+      - WORKER_HEARTBEAT_DIR=/app/data
+      - DEBUG=false
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - uploads_data:/app/uploads
+      - langgraph_data:/app/data
+      - logs_data:/app/logs
+    networks:
+      - autoteams-network
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 4G
+    # AUD-29: worker 不监听 HTTP 端口，backend 镜像自带的 :8000 探针对它永远失败。
+    # 改为检查本进程写出的队列消费心跳 + 数据库连通性。
+    healthcheck:
+      test: ["CMD", "python", "-m", "scripts.worker_healthcheck", "agent_build"]
+      interval: 30s
+      timeout: 15s
+      start_period: 40s
+      retries: 3
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    tmpfs:
+      - /tmp
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+  postgres:
+    image: postgres:15-alpine
+
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-autoteams}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD required}
+      POSTGRES_DB: ${POSTGRES_DB:-autoteams}
+    expose:
+      - "5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - autoteams-network
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-autoteams} -d ${POSTGRES_DB:-autoteams}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --requirepass ${REDIS_PASSWORD:?REDIS_PASSWORD required} --maxmemory 512mb --maxmemory-policy allkeys-lru
+    expose:
+      - "6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - autoteams-network
+    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # 撤销/重放状态不能被缓存淘汰；独立进程与持久卷。
+  redis-security:
+    image: redis:7-alpine
+    command: redis-server --requirepass ${REDIS_PASSWORD:?REDIS_PASSWORD required} --maxmemory 128mb --maxmemory-policy noeviction --appendonly yes --appendfsync always
+    expose:
+      - "6379"
+    volumes:
+      - redis_security_data:/data
+    networks:
+      - autoteams-network
+    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  chromadb:
+    # INF-SEC-01: 锁定具体版本，避免 latest 标签引入不可重现的变更或供应链风险
+    # 后端 chromadb 客户端为 1.5.9（规避 CVE-2026-45829），服务器必须与之匹配，
+    # 否则创建集合时报 KeyError('_type')。ChromaDB 1.x 持久化路径为 /data（0.5.x 为 /chroma/chroma）。
+    image: chromadb/chroma:1.5.9
+    expose:
+      - "8000"
+    volumes:
+      - chroma_data:/data
+    environment:
+      - IS_PERSISTENT=TRUE
+    networks:
+      - autoteams-network
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # A2: 协作工作台服务（pi.dev SDK + AgnesAI）
+  # 由 frontend nginx 反向代理 /collab-api → 3001 /api、/collab-ws → 3001 /ws、/bridge → 3001 /bridge
+  # P0-3: 从 GHCR 拉取预构建镜像（CI 推送），与 frontend/backend 一致
+  collaboration-service:
+    image: ${COLLAB_IMAGE:-ghcr.io/owner/autoteams-collab:latest}
+    expose:
+      - "3001"
+    depends_on:
+      backend:
+        condition: service_healthy
+    env_file:
+      - .env.prod
+    environment:
+      - PORT=3001
+      - AUTOTEAMS_BACKEND_URL=http://backend:8000
+      - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-http://localhost}
+      - AGNES_API_KEY=${AGNES_API_KEY:-}
+      - AGNES_TEXT_MODEL=${AGNES_TEXT_MODEL:-agnes-2.5-flash}
+      # 本地工具桥接：协作服务调用后端内部端点（claim/connected/offline）时携带的共享密钥（与 backend 一致）
+      - BRIDGE_INTERNAL_SECRET=${BRIDGE_INTERNAL_SECRET:?BRIDGE_INTERNAL_SECRET required}
+      - COLLAB_STATE_FILE=/app/data/collaboration-sessions.json
+      # AUD-02 sandbox：生产默认全部拒绝（允许列表为空 = 不允许任何 bash 命令）。
+      - COLLAB_SANDBOX_BASH_ALLOWLIST=${COLLAB_SANDBOX_BASH_ALLOWLIST:-}
+      - COLLAB_SANDBOX_BASH_TIMEOUT_MS=${COLLAB_SANDBOX_BASH_TIMEOUT_MS:-60000}
+      - COLLAB_SANDBOX_BASH_MAX_OUTPUT_BYTES=${COLLAB_SANDBOX_BASH_MAX_OUTPUT_BYTES:-262144}
+      # 逃生舱默认 false；置 true 会打印显式告警，生产不应开启。
+      - COLLAB_SANDBOX_ALLOW_UNRESTRICTED_BASH=${COLLAB_SANDBOX_ALLOW_UNRESTRICTED_BASH:-false}
+    volumes:
+      - collaboration_data:/app/data
+    networks:
+
+      - autoteams-network
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    tmpfs:
+      - /tmp
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # P1-08 + P3-4: 自动备份容器
+  # 周期执行 PostgreSQL 逻辑备份 + uploads/chroma 快照 + 可选 GPG 加密 + 轮转
+  backup:
+    build:
+      context: .
+      dockerfile: docker/backup/Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - PGHOST=postgres
+      - POSTGRES_USER=${POSTGRES_USER:-autoteams}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?POSTGRES_PASSWORD required}
+      - POSTGRES_DB=${POSTGRES_DB:-autoteams}
+      - BACKUP_DIR=${BACKUP_DIR:-/backups}
+      - BACKUP_INTERVAL_HOURS=${BACKUP_INTERVAL_HOURS:-24}
+      - BACKUP_RETENTION_DAYS=${BACKUP_RETENTION_DAYS:-30}
+      - BACKUP_ENCRYPTION_KEY=${BACKUP_ENCRYPTION_KEY:-}
+    volumes:
+      - backups_data:/backups
+      # 备份上传文件与 ChromaDB 向量数据（只读快照）
+      - uploads_data:/source/uploads:ro
+      - chroma_data:/source/chroma:ro
+    networks:
+      - autoteams-network
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  postgres_data:
+  redis_data:
+  redis_security_data:
+  chroma_data:
+  uploads_data:
+  langgraph_data:
+  # P1-06/P1-07: 日志持久化卷
+  logs_data:
+  # P1-08: 备份持久化卷
+  backups_data:
+  # 协作会话元数据与消息历史（重启后保留 interrupted 历史）
+  collaboration_data:
+
+networks:
+
+  autoteams-network:
+    driver: bridge

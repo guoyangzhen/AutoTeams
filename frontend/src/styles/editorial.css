@@ -1,0 +1,472 @@
+/* ============================================================
+   AutoTeams 4.0 · 克制编辑式设计系统（作用域化 token 层）
+   ------------------------------------------------------------
+   依据：docs/AutoTeams-UI重设计蓝图_2026-09-26.md
+   基调：纸面 #FAFAF9 / 表面 #FFFFFF / 主色 #1F4FD8 / 深色文本 #0B0B0B
+   容器：发丝线 #E4E4E1 分隔，白底无阴影堆叠；仅大容器 10px 圆角
+   状态：6px 圆点 + 13px 文字；主色每屏 ≤3 处
+
+   为什么是作用域层而不是改写 tailwind.config.js 的全局色阶：
+   本仓有 30+ 页面共用 --brand(#1E3A5F 海军蓝)/--text-primary(#1A1A1A)。
+   全局改色会把本次未验收的屏幕一并重绘，且与其他并行工作目录的改动
+   冲突。本层是「加法」：只有显式挂上 .at-paper / .at-cockpit 的容器才
+   读取新 token，其余页面字节级不变，可逐屏灰度推进。
+   ============================================================ */
+
+.at-paper,
+.at-cockpit {
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'PingFang SC',
+    'Microsoft YaHei', sans-serif;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+
+  --at-radius: 10px;
+  --at-primary: #1F4FD8;
+  --at-primary-deep: #1A43B8;
+  --at-on-primary: #ffffff;
+}
+
+/* ---------- 浅色：纸面编辑式（02 花名册 / 03 岗位档案） ---------- */
+.at-paper {
+  --at-bg: #FAFAF9;
+  --at-surface: #ffffff;
+  --at-sunk: #f4f4f3;
+  --at-ink: #0b0b0b;
+  --at-body: #1a1b23;
+  --at-muted: #6b6b66;
+  --at-subtle: #70706b;
+  --at-hairline: #e4e4e1;
+  --at-success: #1f7a4d;
+  --at-warning: #9a6212;
+  --at-danger: #b23a2f;
+  --at-plate: #edeef2;
+  --at-plate-ink: #374151;
+  --at-hover: rgba(15, 15, 15, 0.025);
+  --at-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  color: var(--at-body);
+  background: var(--at-bg);
+}
+
+/* ---------- 近黑：指挥区（01 总览驾驶舱） ---------- */
+.at-cockpit {
+  --at-bg: #0a0a0a;
+  --at-shell: #0d0d0e;
+  --at-surface: #121214;
+  --at-sunk: #18181b;
+  --at-ink: #f5f5f4;
+  --at-body: #e7e7e5;
+  --at-muted: #a3a29c;
+  --at-subtle: #97979f;
+  --at-hairline: #26262a;
+  --at-success: #34c98a;
+  --at-warning: #d9a441;
+  --at-danger: #e2705f;
+  --at-primary: #1f4fd8;
+  --at-primary-deep: #1a43b8;
+  --at-accent: #2dd4bf;
+  --at-link: #7ca3ff;
+  --at-plate: #1c1f26;
+  --at-plate-ink: #94a3b8;
+  --at-hover: rgba(255, 255, 255, 0.03);
+  --at-shadow: none;
+  color: var(--at-body);
+  background: var(--at-bg);
+}
+
+/* ============================================================
+   排版阶梯（12px 封底）
+   ============================================================ */
+.at-paper .at-title,
+.at-cockpit .at-title {
+  font-size: 30px;
+  line-height: 38px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--at-ink);
+}
+
+.at-paper .at-section,
+.at-cockpit .at-section {
+  font-size: 17px;
+  line-height: 24px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--at-ink);
+}
+
+.at-paper .at-body,
+.at-cockpit .at-body {
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--at-body);
+}
+
+.at-paper .at-sm,
+.at-cockpit .at-sm {
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--at-body);
+}
+
+.at-paper .at-meta,
+.at-cockpit .at-meta {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--at-muted);
+}
+
+.at-paper .at-kicker,
+.at-cockpit .at-kicker {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--at-subtle);
+}
+
+.at-paper .at-stat,
+.at-cockpit .at-stat {
+  font-size: 34px;
+  line-height: 40px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+  color: var(--at-ink);
+}
+
+.at-paper .at-muted,
+.at-cockpit .at-muted {
+  color: var(--at-muted);
+}
+
+.at-paper .at-subtle,
+.at-cockpit .at-subtle {
+  color: var(--at-subtle);
+}
+
+.at-paper .at-mono,
+.at-cockpit .at-mono {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: -0.01em;
+}
+
+/* ============================================================
+   容器：白底 + 发丝线，大容器 10px 圆角，无阴影堆叠
+   ============================================================ */
+.at-paper .at-surface,
+.at-cockpit .at-surface {
+  background: var(--at-surface);
+  border: 1px solid var(--at-hairline);
+  border-radius: var(--at-radius);
+  box-shadow: var(--at-shadow);
+}
+
+.at-paper .at-surface-flat,
+.at-cockpit .at-surface-flat {
+  background: var(--at-surface);
+  border: 1px solid var(--at-hairline);
+  box-shadow: var(--at-shadow);
+}
+
+/* 区块下沿发丝线（不用底色块堆层级） */
+.at-paper .at-hairline-t,
+.at-cockpit .at-hairline-t {
+  border-top: 1px solid var(--at-hairline);
+}
+
+.at-paper .at-hairline-b,
+.at-cockpit .at-hairline-b {
+  border-bottom: 1px solid var(--at-hairline);
+}
+
+/* 列表行：仅悬停底色，无卡片包裹 */
+.at-paper .at-row,
+.at-cockpit .at-row {
+  transition: background-color 150ms ease;
+}
+
+.at-paper .at-row:hover,
+.at-cockpit .at-row:hover {
+  background: var(--at-hover);
+}
+
+/* ============================================================
+   控件
+   ============================================================ */
+.at-paper .at-btn,
+.at-cockpit .at-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.at-paper .at-btn:focus-visible,
+.at-cockpit .at-btn:focus-visible {
+  outline: 2px solid var(--at-link, var(--at-primary));
+  outline-offset: 2px;
+}
+
+.at-paper .at-btn-primary,
+.at-cockpit .at-btn-primary {
+  background: var(--at-primary);
+  color: var(--at-on-primary);
+}
+
+.at-paper .at-btn-primary:hover,
+.at-cockpit .at-btn-primary:hover {
+  background: var(--at-primary-deep);
+}
+
+.at-cockpit .at-btn-primary {
+  --at-on-primary: #ffffff;
+}
+
+.at-paper .at-btn-quiet,
+.at-cockpit .at-btn-quiet {
+  background: var(--at-surface);
+  border-color: var(--at-hairline);
+  color: var(--at-ink);
+}
+
+.at-paper .at-btn-quiet:hover,
+.at-cockpit .at-btn-quiet:hover {
+  background: var(--at-sunk);
+}
+
+.at-paper .at-btn:disabled,
+.at-cockpit .at-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.at-paper .at-input,
+.at-cockpit .at-input {
+  width: 100%;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid var(--at-hairline);
+  background: var(--at-surface);
+  color: var(--at-ink);
+  font-size: 13px;
+  line-height: 20px;
+  font-family: inherit;
+}
+
+.at-paper .at-input::placeholder,
+.at-cockpit .at-input::placeholder {
+  color: var(--at-subtle);
+}
+
+.at-paper .at-input:focus,
+.at-cockpit .at-input:focus {
+  outline: none;
+  border-color: var(--at-primary);
+}
+
+/* 文字链：全屏限量的主色 */
+.at-paper .at-link,
+.at-cockpit .at-link {
+  color: var(--at-link, var(--at-primary));
+  font-weight: 500;
+}
+
+.at-paper .at-link:hover,
+.at-cockpit .at-link:hover {
+  text-decoration: underline;
+}
+
+/* ============================================================
+   状态：6px 圆点 + 13px 文字（不用彩色填充胶囊）
+   ============================================================ */
+.at-paper .at-dot,
+.at-cockpit .at-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+
+.at-paper .at-dot-ok,
+.at-cockpit .at-dot-ok {
+  background: var(--at-success);
+}
+.at-paper .at-dot-warn,
+.at-cockpit .at-dot-warn {
+  background: var(--at-warning);
+}
+.at-paper .at-dot-bad,
+.at-cockpit .at-dot-bad {
+  background: var(--at-danger);
+}
+.at-paper .at-dot-idle,
+.at-cockpit .at-dot-idle {
+  background: var(--at-subtle);
+}
+.at-paper .at-dot-info,
+.at-cockpit .at-dot-info {
+  background: var(--at-primary);
+}
+
+.at-paper .at-ok,
+.at-cockpit .at-ok {
+  color: var(--at-success);
+}
+.at-paper .at-warn,
+.at-cockpit .at-warn {
+  color: var(--at-warning);
+}
+.at-paper .at-bad,
+.at-cockpit .at-bad {
+  color: var(--at-danger);
+}
+.at-paper .at-accent-text,
+.at-cockpit .at-accent-text {
+  color: var(--at-accent, var(--at-primary));
+}
+
+/* 32px 字母牌 */
+.at-paper .at-plate,
+.at-cockpit .at-plate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  background: var(--at-plate);
+  color: var(--at-plate-ink);
+  font-size: 12px;
+  font-weight: 500;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+/* ============================================================
+   HP 血量细条（绩效 = 血量）
+   ============================================================ */
+.at-paper .at-hp-track,
+.at-cockpit .at-hp-track {
+  height: 2px;
+  border-radius: 9999px;
+  background: var(--at-hairline);
+  overflow: hidden;
+}
+
+.at-paper .at-hp-fill,
+.at-cockpit .at-hp-fill {
+  height: 100%;
+  border-radius: 9999px;
+  background: var(--at-ink);
+}
+
+.at-paper .at-hp-fill-ok,
+.at-cockpit .at-hp-fill-ok {
+  background: var(--at-success);
+}
+.at-paper .at-hp-fill-warn,
+.at-cockpit .at-hp-fill-warn {
+  background: var(--at-warning);
+}
+.at-paper .at-hp-fill-bad,
+.at-cockpit .at-hp-fill-bad {
+  background: var(--at-danger);
+}
+
+/* ============================================================
+   分段控件（卡片式 / 列表式切换）
+   ============================================================ */
+.at-paper .at-seg,
+.at-cockpit .at-seg {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--at-hairline);
+  border-radius: 8px;
+  background: var(--at-surface);
+}
+
+.at-paper .at-seg-item,
+.at-cockpit .at-seg-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--at-muted);
+  font-size: 13px;
+  line-height: 20px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.at-paper .at-seg-item:hover,
+.at-cockpit .at-seg-item:hover {
+  color: var(--at-ink);
+}
+
+.at-paper .at-seg-item[aria-selected='true'],
+.at-cockpit .at-seg-item[aria-selected='true'] {
+  background: var(--at-sunk);
+  color: var(--at-ink);
+  font-weight: 500;
+}
+
+.at-paper .at-seg-item:focus-visible,
+.at-cockpit .at-seg-item:focus-visible {
+  outline: 2px solid var(--at-link, var(--at-primary));
+  outline-offset: 1px;
+}
+
+/* ============================================================
+   焦点可达性：纸面与近黑共用
+   ============================================================ */
+.at-paper a:focus-visible,
+.at-cockpit a:focus-visible,
+.at-paper [tabindex]:focus-visible,
+.at-cockpit [tabindex]:focus-visible {
+  outline: 2px solid var(--at-link, var(--at-primary));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.at-paper ::selection,
+.at-cockpit ::selection {
+  background: var(--at-primary);
+  color: #ffffff;
+}
+
+/* 输入框键盘焦点与按钮共享语义；不以一条细边框作为唯一提示。 */
+.at-paper .at-input:focus-visible,
+.at-cockpit .at-input:focus-visible {
+  outline: 2px solid var(--at-link, var(--at-primary));
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .at-paper .at-row, .at-cockpit .at-row,
+  .at-paper .at-btn, .at-cockpit .at-btn,
+  .at-paper .at-seg-item, .at-cockpit .at-seg-item {
+    transition: none;
+  }
+}

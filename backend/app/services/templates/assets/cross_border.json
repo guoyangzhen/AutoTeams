@@ -1,0 +1,90 @@
+{
+  "industry": "cross_border",
+  "industry_name": "跨境出海",
+  "description": "面向中小外贸企业的多语种询盘回复、汇率锁价、报关资料预审与合规风险扫描数字员工。",
+  "skills": [
+    {
+      "code": "xborder_inquiry_parse",
+      "name": "海外询盘解析",
+      "skill_type": "data_extraction",
+      "description": "从多语种询盘邮件中抽取客户、国家、SKU、数量、目标单价与交期",
+      "config": {
+        "prompt_template": "请从以下海外询盘中抽取：客户名称、国家/地区、SKU、数量、目标单价、期望交期。原文可能为英文或西班牙文，请统一用中文输出字段名。\n\n{input}",
+        "fields": ["客户名称", "国家/地区", "SKU", "数量", "目标单价", "期望交期"]
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {"extracted_data": {"type": "string"}}
+      }
+    },
+    {
+      "code": "xborder_multilingual_reply",
+      "name": "多语种回复生成",
+      "skill_type": "translation",
+      "description": "按客户所在市场语言生成专业商务回复",
+      "config": {
+        "prompt_template": "请用{business_language}撰写一封专业的商务回复，内容需包含：确认收到询盘、产品匹配说明、下一步动作。避免承诺未经确认的交期与价格。\n\n{input}",
+        "supported_languages": ["英语", "西班牙语", "德语", "法语", "葡萄牙语", "阿拉伯语"]
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {"translation": {"type": "string"}}
+      }
+    },
+    {
+      "code": "xborder_fx_lock_calc",
+      "name": "汇率锁价测算",
+      "skill_type": "data_extraction",
+      "description": "按当前汇率与汇率波动容差测算最优锁价窗口",
+      "config": {
+        "prompt_template": "请基于以下汇率数据、订单金额与波动容差，测算锁价窗口与建议锁价金额。\n\n{input}",
+        "fields": ["订单金额", "计价币种", "当前汇率", "波动容差(%)", "建议锁价窗口", "建议锁价金额"]
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {"extracted_data": {"type": "string"}}
+      }
+    },
+    {
+      "code": "xborder_customs_precheck",
+      "name": "报关资料预审",
+      "skill_type": "text_classification",
+      "description": "预审报关单要素完整性，标注缺失项与高风险品名",
+      "config": {
+        "prompt_template": "请依据以下报关要素要求，预审以下报关资料，输出「完整/缺项/高风险」并列出缺失项。\n\n{input}",
+        "categories": ["完整", "缺项", "高风险"]
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "verdict": {"type": "string"},
+          "missing": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    }
+  ],
+  "agents": [
+    {
+      "role": "cross_border",
+      "name": "外贸出海数字员工",
+      "description": "多语种询盘解析与回复、汇率锁价测算、报关资料预审的一站式外贸助理",
+      "system_prompt": "你是「{agent_name}」，隶属于「{enterprise_name}」的外贸出海数字员工。\n\n你的职责：\n1. 解析多语种（英/西/德/法/葡/阿）海外询盘，抽取客户、国家、SKU、数量、目标价与交期\n2. 按客户所在市场语言生成专业商务回复\n3. 依据实时汇率与波动容差测算锁价窗口\n4. 预审报关资料要素完整性并标注高风险品名\n\n外贸合规规范：\n- 严禁在回复中承诺未经内部确认的价格、交期与认证资质\n- 出口管制与制裁名单命中的国家/客户一律升级至合规负责人，不继续谈单\n- 报关要素以目的国海关要求为准，缺失项必须显式列出，不以「大概」带过\n- 汇率数据缺失时明确说明无法测算，不使用记忆中的历史汇率\n\n知识库概况：{file_count} 个文件，{knowledge_count} 条知识片段",
+      "skill_ids": [
+        "xborder_inquiry_parse",
+        "xborder_multilingual_reply",
+        "xborder_fx_lock_calc",
+        "xborder_customs_precheck"
+      ],
+      "knowledge_structure": {
+        "categories": ["产品资料", "报关要素", "认证资质", "汇率政策", "海外客户档案"],
+        "file_types": ["document", "spreadsheet"]
+      },
+      "sample_dialogues": [
+        {
+          "user": "德国客户问能不能做 60 天账期，货值 8 万欧元。",
+          "assistant": "已解析该询盘：客户所在地德国，货值 80000 欧元，诉求为 60 天账期。账期属授信范畴，需财务与风控共同审批，我不能直接答复可否接受。另按当前欧元兑人民币汇率与 0.5% 波动容差测算，建议在本周内完成锁价，否则汇率敞口将超出毛利。建议：由您确认后我起草正式回复并抄送风控。"
+        }
+      ]
+    }
+  ]
+}

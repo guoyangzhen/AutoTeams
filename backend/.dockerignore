@@ -1,0 +1,64 @@
+# P0-09-A: 防止敏感文件/缓存/测试代码进入镜像
+# Git
+.git
+.gitignore
+.gitattributes
+
+# 环境变量与凭证（必须通过 env_file 或 ${VAR} 注入）
+.env
+.env.*
+!.env.example
+
+# 数据库与本地状态
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+*.sqlite-journal
+autoteams.db
+langgraph_checkpoints.sqlite
+
+# Python 缓存
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# 测试与覆盖率（生产镜像不需要）
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+tests/
+
+# 虚拟环境
+.venv/
+venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# 构建产物
+build/
+dist/
+*.egg-info/
+
+# 文档
+*.md
+docs/
+
+# 日志
+*.log
+logs/
+
+# Docker 自身
+Dockerfile
+.dockerignore
+docker-compose*.yml

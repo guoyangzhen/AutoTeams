@@ -1,0 +1,7006 @@
+{
+  "version": "v1.6.0",
+  "model_version": "v1.0.0",
+  "compiled_at": "2026-08-07T10:35:43.544809Z",
+  "completeness": 0.7522,
+  "organization": {
+    "departments": [
+      {
+        "dept_id": "dept_company",
+        "name": "示例科技",
+        "parent_dept_id": null,
+        "head_employee_id": null,
+        "level": 0
+      },
+      {
+        "dept_id": "dept_sales",
+        "name": "销售部",
+        "parent_dept_id": "dept_company",
+        "head_employee_id": null,
+        "level": 1
+      },
+      {
+        "dept_id": "dept_finance",
+        "name": "财务部",
+        "parent_dept_id": "dept_company",
+        "head_employee_id": null,
+        "level": 1
+      },
+      {
+        "dept_id": "dept_cs",
+        "name": "客服部",
+        "parent_dept_id": "dept_company",
+        "head_employee_id": null,
+        "level": 1
+      },
+      {
+        "dept_id": "dept_product",
+        "name": "产品部",
+        "parent_dept_id": "dept_company",
+        "head_employee_id": null,
+        "level": 1
+      },
+      {
+        "dept_id": "dept_rd",
+        "name": "研发部",
+        "parent_dept_id": "dept_company",
+        "head_employee_id": null,
+        "level": 1
+      },
+      {
+        "dept_id": "dept_production",
+        "name": "生产部",
+        "parent_dept_id": "dept_company",
+        "head_employee_id": null,
+        "level": 1
+      },
+      {
+        "dept_id": "dept_hr",
+        "name": "人事行政部",
+        "parent_dept_id": "dept_company",
+        "head_employee_id": null,
+        "level": 1
+      }
+    ],
+    "reporting_tree": {
+      "root": "dept_company",
+      "children": {
+        "dept_company": []
+      }
+    }
+  },
+  "agents": [
+    {
+      "agent_id": "agent_role_a4c12bc38dfe",
+      "agent_name": "销售经理",
+      "role_id": "role_a4c12bc38dfe",
+      "department": "",
+      "level": "L2",
+      "system_prompt": "你是的销售经理。你的核心技能包括：客户沟通跟进、销售谈判、CRM操作。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户沟通跟进",
+          "name": "客户沟通跟进",
+          "enabled": true
+        },
+        {
+          "skill_id": "销售谈判",
+          "name": "销售谈判",
+          "enabled": true
+        },
+        {
+          "skill_id": "CRM操作",
+          "name": "CRM操作",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_role_ee147c5c2cdb",
+      "agent_name": "销售代表",
+      "role_id": "role_ee147c5c2cdb",
+      "department": "",
+      "level": "L2",
+      "system_prompt": "你是的销售代表。你的核心技能包括：客户沟通跟进、销售谈判、CRM操作。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户沟通跟进",
+          "name": "客户沟通跟进",
+          "enabled": true
+        },
+        {
+          "skill_id": "销售谈判",
+          "name": "销售谈判",
+          "enabled": true
+        },
+        {
+          "skill_id": "CRM操作",
+          "name": "CRM操作",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_role_0fbf445101fb",
+      "agent_name": "售前技术支持",
+      "role_id": "role_0fbf445101fb",
+      "department": "",
+      "level": "L2",
+      "system_prompt": "你是的售前技术支持。你的核心技能包括：客户服务、工单处理、FAQ检索。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户服务",
+          "name": "客户服务",
+          "enabled": true
+        },
+        {
+          "skill_id": "工单处理",
+          "name": "工单处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "FAQ检索",
+          "name": "FAQ检索",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_role_17399722d6ca",
+      "agent_name": "产品经理",
+      "role_id": "role_17399722d6ca",
+      "department": "",
+      "level": "L2",
+      "system_prompt": "你是的产品经理。你的核心技能包括：团队管理、任务分配、绩效评估。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "团队管理",
+          "name": "团队管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "任务分配",
+          "name": "任务分配",
+          "enabled": true
+        },
+        {
+          "skill_id": "绩效评估",
+          "name": "绩效评估",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_role_e37f28845d99",
+      "agent_name": "技术支持工程师",
+      "role_id": "role_e37f28845d99",
+      "department": "",
+      "level": "L2",
+      "system_prompt": "你是的技术支持工程师。你的核心技能包括：客户服务、工单处理、FAQ检索。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户服务",
+          "name": "客户服务",
+          "enabled": true
+        },
+        {
+          "skill_id": "工单处理",
+          "name": "工单处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "FAQ检索",
+          "name": "FAQ检索",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_role_61700c6a1be0",
+      "agent_name": "客服专员",
+      "role_id": "role_61700c6a1be0",
+      "department": "",
+      "level": "L2",
+      "system_prompt": "你是的客服专员。你的核心技能包括：客户服务、工单处理、FAQ检索。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户服务",
+          "name": "客户服务",
+          "enabled": true
+        },
+        {
+          "skill_id": "工单处理",
+          "name": "工单处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "FAQ检索",
+          "name": "FAQ检索",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_role_1476efc3d2fe",
+      "agent_name": "售后服务专员",
+      "role_id": "role_1476efc3d2fe",
+      "department": "",
+      "level": "L2",
+      "system_prompt": "你是的售后服务专员。你的核心技能包括：客户服务、工单处理、FAQ检索。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户服务",
+          "name": "客户服务",
+          "enabled": true
+        },
+        {
+          "skill_id": "工单处理",
+          "name": "工单处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "FAQ检索",
+          "name": "FAQ检索",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_role_9366ea14fbe4",
+      "agent_name": "会计",
+      "role_id": "role_9366ea14fbe4",
+      "department": "",
+      "level": "L2",
+      "system_prompt": "你是的会计。你的核心技能包括：财务核算、预算管理、报表编制。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "财务核算",
+          "name": "财务核算",
+          "enabled": true
+        },
+        {
+          "skill_id": "预算管理",
+          "name": "预算管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "报表编制",
+          "name": "报表编制",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_role_33bf143602ae",
+      "agent_name": "行政专员",
+      "role_id": "role_33bf143602ae",
+      "department": "",
+      "level": "L2",
+      "system_prompt": "你是的行政专员。你的核心技能包括：通用办公协作、文档处理、流程执行。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "通用办公协作",
+          "name": "通用办公协作",
+          "enabled": true
+        },
+        {
+          "skill_id": "文档处理",
+          "name": "文档处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "流程执行",
+          "name": "流程执行",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_role_b1cf750ac1fa",
+      "agent_name": "硬件工程师",
+      "role_id": "role_b1cf750ac1fa",
+      "department": "",
+      "level": "L2",
+      "system_prompt": "你是的硬件工程师。你的核心技能包括：通用办公协作、文档处理、流程执行。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "通用办公协作",
+          "name": "通用办公协作",
+          "enabled": true
+        },
+        {
+          "skill_id": "文档处理",
+          "name": "文档处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "流程执行",
+          "name": "流程执行",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_role_383260da8ea9",
+      "agent_name": "软件工程师",
+      "role_id": "role_383260da8ea9",
+      "department": "",
+      "level": "L2",
+      "system_prompt": "你是的软件工程师。你的核心技能包括：通用办公协作、文档处理、流程执行。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "通用办公协作",
+          "name": "通用办公协作",
+          "enabled": true
+        },
+        {
+          "skill_id": "文档处理",
+          "name": "文档处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "流程执行",
+          "name": "流程执行",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_role_996e592a29a3",
+      "agent_name": "质检员",
+      "role_id": "role_996e592a29a3",
+      "department": "",
+      "level": "L2",
+      "system_prompt": "你是的质检员。你的核心技能包括：通用办公协作、文档处理、流程执行。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "通用办公协作",
+          "name": "通用办公协作",
+          "enabled": true
+        },
+        {
+          "skill_id": "文档处理",
+          "name": "文档处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "流程执行",
+          "name": "流程执行",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_role_4903d01b31fe",
+      "agent_name": "产品参数查询（转产品",
+      "role_id": "role_4903d01b31fe",
+      "department": "",
+      "level": "L2",
+      "system_prompt": "你是的产品参数查询（转产品。你的核心技能包括：通用办公协作、文档处理、流程执行。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "通用办公协作",
+          "name": "通用办公协作",
+          "enabled": true
+        },
+        {
+          "skill_id": "文档处理",
+          "name": "文档处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "流程执行",
+          "name": "流程执行",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_role_e6f52fe96c39",
+      "agent_name": "客户询问产品参数",
+      "role_id": "role_e6f52fe96c39",
+      "department": "",
+      "level": "L2",
+      "system_prompt": "你是的客户询问产品参数。你的核心技能包括：通用办公协作、文档处理、流程执行。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "通用办公协作",
+          "name": "通用办公协作",
+          "enabled": true
+        },
+        {
+          "skill_id": "文档处理",
+          "name": "文档处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "流程执行",
+          "name": "流程执行",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_073518e3f324",
+      "agent_name": "CEO",
+      "role_id": "info_073518e3f324",
+      "department": "销售部",
+      "level": "L1",
+      "system_prompt": "你是销售部的CEO。你的核心技能包括：客户沟通跟进、销售谈判、CRM操作。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户沟通跟进",
+          "name": "客户沟通跟进",
+          "enabled": true
+        },
+        {
+          "skill_id": "销售谈判",
+          "name": "销售谈判",
+          "enabled": true
+        },
+        {
+          "skill_id": "CRM操作",
+          "name": "CRM操作",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_e30f3e686191",
+      "agent_name": "总监",
+      "role_id": "info_e30f3e686191",
+      "department": "财务部",
+      "level": "L2",
+      "system_prompt": "你是财务部的总监。你的核心技能包括：财务核算、预算管理、报表编制。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "财务核算",
+          "name": "财务核算",
+          "enabled": true
+        },
+        {
+          "skill_id": "预算管理",
+          "name": "预算管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "报表编制",
+          "name": "报表编制",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_35bd3bcc531b",
+      "agent_name": "经理",
+      "role_id": "info_35bd3bcc531b",
+      "department": "财务部",
+      "level": "L3",
+      "system_prompt": "你是财务部的经理。你的核心技能包括：财务核算、预算管理、报表编制。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "财务核算",
+          "name": "财务核算",
+          "enabled": true
+        },
+        {
+          "skill_id": "预算管理",
+          "name": "预算管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "报表编制",
+          "name": "报表编制",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_01e68ab4e012",
+      "agent_name": "销售代表",
+      "role_id": "info_01e68ab4e012",
+      "department": "销售部",
+      "level": "L3",
+      "system_prompt": "你是销售部的销售代表。你的核心技能包括：客户沟通跟进、销售谈判、CRM操作。你负责执行以下流程：info_417af7315d2e、info_5535d78f3251、info_56e3e4d320b7。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户沟通跟进",
+          "name": "客户沟通跟进",
+          "enabled": true
+        },
+        {
+          "skill_id": "销售谈判",
+          "name": "销售谈判",
+          "enabled": true
+        },
+        {
+          "skill_id": "CRM操作",
+          "name": "CRM操作",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_0c95a67fa4d7",
+      "agent_name": "销售经理",
+      "role_id": "info_0c95a67fa4d7",
+      "department": "销售部",
+      "level": "L2",
+      "system_prompt": "你是销售部的销售经理。你的核心技能包括：客户沟通跟进、销售谈判、CRM操作。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户沟通跟进",
+          "name": "客户沟通跟进",
+          "enabled": true
+        },
+        {
+          "skill_id": "销售谈判",
+          "name": "销售谈判",
+          "enabled": true
+        },
+        {
+          "skill_id": "CRM操作",
+          "name": "CRM操作",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_f83d24d422d0",
+      "agent_name": "客服专员",
+      "role_id": "info_f83d24d422d0",
+      "department": "客服部",
+      "level": "L4",
+      "system_prompt": "你是客服部的客服专员。你的核心技能包括：客户服务、工单处理、FAQ检索。你负责执行以下流程：info_eb0ed870012e。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户服务",
+          "name": "客户服务",
+          "enabled": true
+        },
+        {
+          "skill_id": "工单处理",
+          "name": "工单处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "FAQ检索",
+          "name": "FAQ检索",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_ed5d467c37f9",
+      "agent_name": "售前工程师",
+      "role_id": "info_ed5d467c37f9",
+      "department": "产品部",
+      "level": "L3",
+      "system_prompt": "你是产品部的售前工程师。你的核心技能包括：通用办公协作、文档处理、流程执行。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "通用办公协作",
+          "name": "通用办公协作",
+          "enabled": true
+        },
+        {
+          "skill_id": "文档处理",
+          "name": "文档处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "流程执行",
+          "name": "流程执行",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_957eee11ff2a",
+      "agent_name": "售后工程师",
+      "role_id": "info_957eee11ff2a",
+      "department": "客服部",
+      "level": "L3",
+      "system_prompt": "你是客服部的售后工程师。你的核心技能包括：客户服务、工单处理、FAQ检索。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户服务",
+          "name": "客户服务",
+          "enabled": true
+        },
+        {
+          "skill_id": "工单处理",
+          "name": "工单处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "FAQ检索",
+          "name": "FAQ检索",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_8d7698d38983",
+      "agent_name": "产品经理",
+      "role_id": "info_8d7698d38983",
+      "department": "产品部",
+      "level": "L3",
+      "system_prompt": "你是产品部的产品经理。你的核心技能包括：团队管理、任务分配、绩效评估。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "团队管理",
+          "name": "团队管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "任务分配",
+          "name": "任务分配",
+          "enabled": true
+        },
+        {
+          "skill_id": "绩效评估",
+          "name": "绩效评估",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_1b80c0e89d44",
+      "agent_name": "财务经理",
+      "role_id": "info_1b80c0e89d44",
+      "department": "财务部",
+      "level": "L2",
+      "system_prompt": "你是财务部的财务经理。你的核心技能包括：财务核算、预算管理、报表编制。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "财务核算",
+          "name": "财务核算",
+          "enabled": true
+        },
+        {
+          "skill_id": "预算管理",
+          "name": "预算管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "报表编制",
+          "name": "报表编制",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_25431c11320a",
+      "agent_name": "人事经理",
+      "role_id": "info_25431c11320a",
+      "department": "人事/人力资源部",
+      "level": "L2",
+      "system_prompt": "你是人事/人力资源部的人事经理。你的核心技能包括：招聘管理、员工档案、绩效管理。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "招聘管理",
+          "name": "招聘管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "员工档案",
+          "name": "员工档案",
+          "enabled": true
+        },
+        {
+          "skill_id": "绩效管理",
+          "name": "绩效管理",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_2baa46f09a50",
+      "agent_name": "研发工程师",
+      "role_id": "info_2baa46f09a50",
+      "department": "研发部",
+      "level": "L3",
+      "system_prompt": "你是研发部的研发工程师。你的核心技能包括：通用办公协作、文档处理、流程执行。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "通用办公协作",
+          "name": "通用办公协作",
+          "enabled": true
+        },
+        {
+          "skill_id": "文档处理",
+          "name": "文档处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "流程执行",
+          "name": "流程执行",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_ca24023a2caa",
+      "agent_name": "生产经理",
+      "role_id": "info_ca24023a2caa",
+      "department": "生产部",
+      "level": "L3",
+      "system_prompt": "你是生产部的生产经理。你的核心技能包括：团队管理、任务分配、绩效评估。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "团队管理",
+          "name": "团队管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "任务分配",
+          "name": "任务分配",
+          "enabled": true
+        },
+        {
+          "skill_id": "绩效评估",
+          "name": "绩效评估",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_162d440c7050",
+      "agent_name": "CEO / 总经理",
+      "role_id": "info_162d440c7050",
+      "department": "高管层",
+      "level": "L1",
+      "system_prompt": "你是高管层的CEO / 总经理。你的核心技能包括：团队管理、经营分析、决策审批。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "团队管理",
+          "name": "团队管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "经营分析",
+          "name": "经营分析",
+          "enabled": true
+        },
+        {
+          "skill_id": "决策审批",
+          "name": "决策审批",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_28abc7c8b98d",
+      "agent_name": "销售总监",
+      "role_id": "info_28abc7c8b98d",
+      "department": "销售部",
+      "level": "L2",
+      "system_prompt": "你是销售部的销售总监。你的核心技能包括：客户沟通跟进、销售谈判、CRM操作。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户沟通跟进",
+          "name": "客户沟通跟进",
+          "enabled": true
+        },
+        {
+          "skill_id": "销售谈判",
+          "name": "销售谈判",
+          "enabled": true
+        },
+        {
+          "skill_id": "CRM操作",
+          "name": "CRM操作",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_b7bd4477496b",
+      "agent_name": "售前技术支持",
+      "role_id": "info_b7bd4477496b",
+      "department": "销售部",
+      "level": "L3",
+      "system_prompt": "你是销售部的售前技术支持。你的核心技能包括：客户沟通跟进、销售谈判、CRM操作。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户沟通跟进",
+          "name": "客户沟通跟进",
+          "enabled": true
+        },
+        {
+          "skill_id": "销售谈判",
+          "name": "销售谈判",
+          "enabled": true
+        },
+        {
+          "skill_id": "CRM操作",
+          "name": "CRM操作",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_be7a4eba2ef7",
+      "agent_name": "产品总监",
+      "role_id": "info_be7a4eba2ef7",
+      "department": "产品部",
+      "level": "L2",
+      "system_prompt": "你是产品部的产品总监。你的核心技能包括：团队管理、经营分析、决策审批。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "团队管理",
+          "name": "团队管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "经营分析",
+          "name": "经营分析",
+          "enabled": true
+        },
+        {
+          "skill_id": "决策审批",
+          "name": "决策审批",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_0d7061d78b34",
+      "agent_name": "技术支持工程师",
+      "role_id": "info_0d7061d78b34",
+      "department": "研发部",
+      "level": "L3",
+      "system_prompt": "你是研发部的技术支持工程师。你的核心技能包括：客户服务、工单处理、FAQ检索。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户服务",
+          "name": "客户服务",
+          "enabled": true
+        },
+        {
+          "skill_id": "工单处理",
+          "name": "工单处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "FAQ检索",
+          "name": "FAQ检索",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_d0ce310d5862",
+      "agent_name": "客服主管",
+      "role_id": "info_d0ce310d5862",
+      "department": "客服部",
+      "level": "L2",
+      "system_prompt": "你是客服部的客服主管。你的核心技能包括：客户服务、工单处理、FAQ检索。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户服务",
+          "name": "客户服务",
+          "enabled": true
+        },
+        {
+          "skill_id": "工单处理",
+          "name": "工单处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "FAQ检索",
+          "name": "FAQ检索",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_9c2d52a09089",
+      "agent_name": "售后服务专员",
+      "role_id": "info_9c2d52a09089",
+      "department": "客服部",
+      "level": "L3",
+      "system_prompt": "你是客服部的售后服务专员。你的核心技能包括：客户服务、工单处理、FAQ检索。你负责执行以下流程：info_ace835c74e28。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户服务",
+          "name": "客户服务",
+          "enabled": true
+        },
+        {
+          "skill_id": "工单处理",
+          "name": "工单处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "FAQ检索",
+          "name": "FAQ检索",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_99dc26f1f5d6",
+      "agent_name": "会计",
+      "role_id": "info_99dc26f1f5d6",
+      "department": "财务部",
+      "level": "L4",
+      "system_prompt": "你是财务部的会计。你的核心技能包括：财务核算、预算管理、报表编制。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "财务核算",
+          "name": "财务核算",
+          "enabled": true
+        },
+        {
+          "skill_id": "预算管理",
+          "name": "预算管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "报表编制",
+          "name": "报表编制",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_70723125cb7b",
+      "agent_name": "人事行政经理",
+      "role_id": "info_70723125cb7b",
+      "department": "人事行政部",
+      "level": "L3",
+      "system_prompt": "你是人事行政部的人事行政经理。你的核心技能包括：招聘管理、员工档案、绩效管理。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "招聘管理",
+          "name": "招聘管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "员工档案",
+          "name": "员工档案",
+          "enabled": true
+        },
+        {
+          "skill_id": "绩效管理",
+          "name": "绩效管理",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_bf617cdc4edd",
+      "agent_name": "行政专员",
+      "role_id": "info_bf617cdc4edd",
+      "department": "人事行政部",
+      "level": "L4",
+      "system_prompt": "你是人事行政部的行政专员。你的核心技能包括：招聘管理、员工档案、绩效管理。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "招聘管理",
+          "name": "招聘管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "员工档案",
+          "name": "员工档案",
+          "enabled": true
+        },
+        {
+          "skill_id": "绩效管理",
+          "name": "绩效管理",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_42297d1042d1",
+      "agent_name": "研发总监",
+      "role_id": "info_42297d1042d1",
+      "department": "研发部",
+      "level": "L2",
+      "system_prompt": "你是研发部的研发总监。你的核心技能包括：团队管理、经营分析、决策审批。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "团队管理",
+          "name": "团队管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "经营分析",
+          "name": "经营分析",
+          "enabled": true
+        },
+        {
+          "skill_id": "决策审批",
+          "name": "决策审批",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_dfbfc63b458e",
+      "agent_name": "质检员",
+      "role_id": "info_dfbfc63b458e",
+      "department": "生产部",
+      "level": "L4",
+      "system_prompt": "你是生产部的质检员。你的核心技能包括：通用办公协作、文档处理、流程执行。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "通用办公协作",
+          "name": "通用办公协作",
+          "enabled": true
+        },
+        {
+          "skill_id": "文档处理",
+          "name": "文档处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "流程执行",
+          "name": "流程执行",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_fc73d1658052",
+      "agent_name": "销售",
+      "role_id": "info_fc73d1658052",
+      "department": "",
+      "level": "L3-L4",
+      "system_prompt": "你是的销售。你的核心技能包括：客户沟通跟进、销售谈判、CRM操作。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户沟通跟进",
+          "name": "客户沟通跟进",
+          "enabled": true
+        },
+        {
+          "skill_id": "销售谈判",
+          "name": "销售谈判",
+          "enabled": true
+        },
+        {
+          "skill_id": "CRM操作",
+          "name": "CRM操作",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_5ce6414ef885",
+      "agent_name": "技术支持",
+      "role_id": "info_5ce6414ef885",
+      "department": "客服部",
+      "level": "",
+      "system_prompt": "你是客服部的技术支持。你的核心技能包括：客户服务、工单处理、FAQ检索。你负责执行以下流程：info_45fc590fa145、info_76804f80bcf7、info_d1875b0b39dd。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户服务",
+          "name": "客户服务",
+          "enabled": true
+        },
+        {
+          "skill_id": "工单处理",
+          "name": "工单处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "FAQ检索",
+          "name": "FAQ检索",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_b1f2a1261639",
+      "agent_name": "维修工程师",
+      "role_id": "info_b1f2a1261639",
+      "department": "客服部",
+      "level": "",
+      "system_prompt": "你是客服部的维修工程师。你的核心技能包括：客户服务、工单处理、FAQ检索。你负责执行以下流程：info_45fc590fa145、info_76804f80bcf7。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户服务",
+          "name": "客户服务",
+          "enabled": true
+        },
+        {
+          "skill_id": "工单处理",
+          "name": "工单处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "FAQ检索",
+          "name": "FAQ检索",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_472be76819da",
+      "agent_name": "工程师",
+      "role_id": "info_472be76819da",
+      "department": "产品部",
+      "level": "",
+      "system_prompt": "你是产品部的工程师。你的核心技能包括：通用办公协作、文档处理、流程执行。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "通用办公协作",
+          "name": "通用办公协作",
+          "enabled": true
+        },
+        {
+          "skill_id": "文档处理",
+          "name": "文档处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "流程执行",
+          "name": "流程执行",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_06fefba08523",
+      "agent_name": "部门经理",
+      "role_id": "info_06fefba08523",
+      "department": "",
+      "level": "L2",
+      "system_prompt": "你是的部门经理。你的核心技能包括：团队管理、任务分配、绩效评估。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "团队管理",
+          "name": "团队管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "任务分配",
+          "name": "任务分配",
+          "enabled": true
+        },
+        {
+          "skill_id": "绩效评估",
+          "name": "绩效评估",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_6250d3f7640b",
+      "agent_name": "部门总监",
+      "role_id": "info_6250d3f7640b",
+      "department": "",
+      "level": "L1",
+      "system_prompt": "你是的部门总监。你的核心技能包括：团队管理、经营分析、决策审批。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "团队管理",
+          "name": "团队管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "经营分析",
+          "name": "经营分析",
+          "enabled": true
+        },
+        {
+          "skill_id": "决策审批",
+          "name": "决策审批",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_cb757dba2f5f",
+      "agent_name": "客服",
+      "role_id": "info_cb757dba2f5f",
+      "department": "",
+      "level": "L3-L4",
+      "system_prompt": "你是的客服。你的核心技能包括：客户服务、工单处理、FAQ检索。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户服务",
+          "name": "客户服务",
+          "enabled": true
+        },
+        {
+          "skill_id": "工单处理",
+          "name": "工单处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "FAQ检索",
+          "name": "FAQ检索",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_fdbdb7ec8a33",
+      "agent_name": "生产",
+      "role_id": "info_fdbdb7ec8a33",
+      "department": "",
+      "level": "L3-L4",
+      "system_prompt": "你是的生产。你的核心技能包括：通用办公协作、文档处理、流程执行。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "通用办公协作",
+          "name": "通用办公协作",
+          "enabled": true
+        },
+        {
+          "skill_id": "文档处理",
+          "name": "文档处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "流程执行",
+          "name": "流程执行",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_174a8fb067a3",
+      "agent_name": "产品",
+      "role_id": "info_174a8fb067a3",
+      "department": "",
+      "level": "L3-L4",
+      "system_prompt": "你是的产品。你的核心技能包括：通用办公协作、文档处理、流程执行。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "通用办公协作",
+          "name": "通用办公协作",
+          "enabled": true
+        },
+        {
+          "skill_id": "文档处理",
+          "name": "文档处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "流程执行",
+          "name": "流程执行",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_740c33b548eb",
+      "agent_name": "研发",
+      "role_id": "info_740c33b548eb",
+      "department": "",
+      "level": "L3-L4",
+      "system_prompt": "你是的研发。你的核心技能包括：通用办公协作、文档处理、流程执行。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "通用办公协作",
+          "name": "通用办公协作",
+          "enabled": true
+        },
+        {
+          "skill_id": "文档处理",
+          "name": "文档处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "流程执行",
+          "name": "流程执行",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_d22c9f955fda",
+      "agent_name": "售前",
+      "role_id": "info_d22c9f955fda",
+      "department": "",
+      "level": "L3-L4",
+      "system_prompt": "你是的售前。你的核心技能包括：通用办公协作、文档处理、流程执行。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "通用办公协作",
+          "name": "通用办公协作",
+          "enabled": true
+        },
+        {
+          "skill_id": "文档处理",
+          "name": "文档处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "流程执行",
+          "name": "流程执行",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_6ebfef9fd901",
+      "agent_name": "财务",
+      "role_id": "info_6ebfef9fd901",
+      "department": "",
+      "level": "L3-L4",
+      "system_prompt": "你是的财务。你的核心技能包括：财务核算、预算管理、报表编制。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "财务核算",
+          "name": "财务核算",
+          "enabled": true
+        },
+        {
+          "skill_id": "预算管理",
+          "name": "预算管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "报表编制",
+          "name": "报表编制",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_c70e33a96519",
+      "agent_name": "人事",
+      "role_id": "info_c70e33a96519",
+      "department": "",
+      "level": "L3-L4",
+      "system_prompt": "你是的人事。你的核心技能包括：招聘管理、员工档案、绩效管理。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "招聘管理",
+          "name": "招聘管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "员工档案",
+          "name": "员工档案",
+          "enabled": true
+        },
+        {
+          "skill_id": "绩效管理",
+          "name": "绩效管理",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_5c5708bbe08b",
+      "agent_name": "行政",
+      "role_id": "info_5c5708bbe08b",
+      "department": "",
+      "level": "L3-L4",
+      "system_prompt": "你是的行政。你的核心技能包括：通用办公协作、文档处理、流程执行。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "通用办公协作",
+          "name": "通用办公协作",
+          "enabled": true
+        },
+        {
+          "skill_id": "文档处理",
+          "name": "文档处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "流程执行",
+          "name": "流程执行",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_adc52c1653b2",
+      "agent_name": "CEO",
+      "role_id": "info_adc52c1653b2",
+      "department": "",
+      "level": "L0",
+      "system_prompt": "你是的CEO。你的核心技能包括：团队管理、经营分析、决策审批。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "团队管理",
+          "name": "团队管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "经营分析",
+          "name": "经营分析",
+          "enabled": true
+        },
+        {
+          "skill_id": "决策审批",
+          "name": "决策审批",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_5087f2ee2442",
+      "agent_name": "总监",
+      "role_id": "info_5087f2ee2442",
+      "department": "",
+      "level": "L2",
+      "system_prompt": "你是的总监。你的核心技能包括：团队管理、经营分析、决策审批。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "团队管理",
+          "name": "团队管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "经营分析",
+          "name": "经营分析",
+          "enabled": true
+        },
+        {
+          "skill_id": "决策审批",
+          "name": "决策审批",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_d58422b17661",
+      "agent_name": "经理",
+      "role_id": "info_d58422b17661",
+      "department": "",
+      "level": "L3",
+      "system_prompt": "你是的经理。你的核心技能包括：团队管理、任务分配、绩效评估。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "团队管理",
+          "name": "团队管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "任务分配",
+          "name": "任务分配",
+          "enabled": true
+        },
+        {
+          "skill_id": "绩效评估",
+          "name": "绩效评估",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_8f7ad614f7f5",
+      "agent_name": "销售",
+      "role_id": "info_8f7ad614f7f5",
+      "department": "销售部",
+      "level": "",
+      "system_prompt": "你是销售部的销售。你的核心技能包括：客户沟通跟进、销售谈判、CRM操作。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户沟通跟进",
+          "name": "客户沟通跟进",
+          "enabled": true
+        },
+        {
+          "skill_id": "销售谈判",
+          "name": "销售谈判",
+          "enabled": true
+        },
+        {
+          "skill_id": "CRM操作",
+          "name": "CRM操作",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_df28a7f43b06",
+      "agent_name": "技术支持工程师",
+      "role_id": "info_df28a7f43b06",
+      "department": "客服部",
+      "level": "L3",
+      "system_prompt": "你是客服部的技术支持工程师。你的核心技能包括：客户服务、工单处理、FAQ检索。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户服务",
+          "name": "客户服务",
+          "enabled": true
+        },
+        {
+          "skill_id": "工单处理",
+          "name": "工单处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "FAQ检索",
+          "name": "FAQ检索",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_c2741deca933",
+      "agent_name": "硬件工程师",
+      "role_id": "info_c2741deca933",
+      "department": "研发部",
+      "level": "L3",
+      "system_prompt": "你是研发部的硬件工程师。你的核心技能包括：通用办公协作、文档处理、流程执行。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "通用办公协作",
+          "name": "通用办公协作",
+          "enabled": true
+        },
+        {
+          "skill_id": "文档处理",
+          "name": "文档处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "流程执行",
+          "name": "流程执行",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_5cc974032c5a",
+      "agent_name": "软件工程师",
+      "role_id": "info_5cc974032c5a",
+      "department": "研发部",
+      "level": "L3",
+      "system_prompt": "你是研发部的软件工程师。你的核心技能包括：通用办公协作、文档处理、流程执行。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "通用办公协作",
+          "name": "通用办公协作",
+          "enabled": true
+        },
+        {
+          "skill_id": "文档处理",
+          "name": "文档处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "流程执行",
+          "name": "流程执行",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_cc3bbd5b8459",
+      "agent_name": "制单人",
+      "role_id": "info_cc3bbd5b8459",
+      "department": "销售部",
+      "level": "L3",
+      "system_prompt": "你是销售部的制单人。你的核心技能包括：客户沟通跟进、销售谈判、CRM操作。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户沟通跟进",
+          "name": "客户沟通跟进",
+          "enabled": true
+        },
+        {
+          "skill_id": "销售谈判",
+          "name": "销售谈判",
+          "enabled": true
+        },
+        {
+          "skill_id": "CRM操作",
+          "name": "CRM操作",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_e86fa81123b4",
+      "agent_name": "客服",
+      "role_id": "info_e86fa81123b4",
+      "department": "客服部",
+      "level": "L1",
+      "system_prompt": "你是客服部的客服。你的核心技能包括：客户服务、工单处理、FAQ检索。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户服务",
+          "name": "客户服务",
+          "enabled": true
+        },
+        {
+          "skill_id": "工单处理",
+          "name": "工单处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "FAQ检索",
+          "name": "FAQ检索",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_aa5e45a1d4d5",
+      "agent_name": "财务",
+      "role_id": "info_aa5e45a1d4d5",
+      "department": "财务部",
+      "level": "",
+      "system_prompt": "你是财务部的财务。你的核心技能包括：财务核算、预算管理、报表编制。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "财务核算",
+          "name": "财务核算",
+          "enabled": true
+        },
+        {
+          "skill_id": "预算管理",
+          "name": "预算管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "报表编制",
+          "name": "报表编制",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_c5d8594b3329",
+      "agent_name": "人事",
+      "role_id": "info_c5d8594b3329",
+      "department": "人事行政部",
+      "level": "",
+      "system_prompt": "你是人事行政部的人事。你的核心技能包括：招聘管理、员工档案、绩效管理。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "招聘管理",
+          "name": "招聘管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "员工档案",
+          "name": "员工档案",
+          "enabled": true
+        },
+        {
+          "skill_id": "绩效管理",
+          "name": "绩效管理",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_29113b364e55",
+      "agent_name": "行政",
+      "role_id": "info_29113b364e55",
+      "department": "人事行政部",
+      "level": "",
+      "system_prompt": "你是人事行政部的行政。你的核心技能包括：招聘管理、员工档案、绩效管理。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "招聘管理",
+          "name": "招聘管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "员工档案",
+          "name": "员工档案",
+          "enabled": true
+        },
+        {
+          "skill_id": "绩效管理",
+          "name": "绩效管理",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_cca5895764dd",
+      "agent_name": "CEO/总经理",
+      "role_id": "info_cca5895764dd",
+      "department": "高管层",
+      "level": "L1",
+      "system_prompt": "你是高管层的CEO/总经理。你的核心技能包括：团队管理、经营分析、决策审批。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "团队管理",
+          "name": "团队管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "经营分析",
+          "name": "经营分析",
+          "enabled": true
+        },
+        {
+          "skill_id": "决策审批",
+          "name": "决策审批",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_673e5cccd315",
+      "agent_name": "技术支持工程师",
+      "role_id": "info_673e5cccd315",
+      "department": "产品部",
+      "level": "L2",
+      "system_prompt": "你是产品部的技术支持工程师。你的核心技能包括：客户服务、工单处理、FAQ检索。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户服务",
+          "name": "客户服务",
+          "enabled": true
+        },
+        {
+          "skill_id": "工单处理",
+          "name": "工单处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "FAQ检索",
+          "name": "FAQ检索",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_4e82ac26032e",
+      "agent_name": "技术支持",
+      "role_id": "info_4e82ac26032e",
+      "department": "",
+      "level": "",
+      "system_prompt": "你是的技术支持。你的核心技能包括：客户服务、工单处理、FAQ检索。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "客户服务",
+          "name": "客户服务",
+          "enabled": true
+        },
+        {
+          "skill_id": "工单处理",
+          "name": "工单处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "FAQ检索",
+          "name": "FAQ检索",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_6cd2f0614a50",
+      "agent_name": "主管",
+      "role_id": "info_6cd2f0614a50",
+      "department": "",
+      "level": "",
+      "system_prompt": "你是的主管。你的核心技能包括：团队管理、任务分配、绩效评估。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "团队管理",
+          "name": "团队管理",
+          "enabled": true
+        },
+        {
+          "skill_id": "任务分配",
+          "name": "任务分配",
+          "enabled": true
+        },
+        {
+          "skill_id": "绩效评估",
+          "name": "绩效评估",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    },
+    {
+      "agent_id": "agent_info_74a74e342dc5",
+      "agent_name": "工程师",
+      "role_id": "info_74a74e342dc5",
+      "department": "",
+      "level": "",
+      "system_prompt": "你是的工程师。你的核心技能包括：通用办公协作、文档处理、流程执行。你负责执行以下流程：日常事务。请按照企业规范完成任务，遇到不确定的情况及时向上级请示。",
+      "skills": [
+        {
+          "skill_id": "通用办公协作",
+          "name": "通用办公协作",
+          "enabled": true
+        },
+        {
+          "skill_id": "文档处理",
+          "name": "文档处理",
+          "enabled": true
+        },
+        {
+          "skill_id": "流程执行",
+          "name": "流程执行",
+          "enabled": true
+        }
+      ],
+      "knowledge_bases": [],
+      "tools": [
+        {
+          "tool_id": "知识库检索",
+          "name": "知识库检索",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "文档解析",
+          "name": "文档解析",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "任务编排",
+          "name": "任务编排",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "审批流",
+          "name": "审批流",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "消息协作",
+          "name": "消息协作",
+          "tool_type": "api",
+          "permissions": []
+        },
+        {
+          "tool_id": "报表生成",
+          "name": "报表生成",
+          "tool_type": "api",
+          "permissions": []
+        }
+      ],
+      "permissions": [],
+      "memory_config": {
+        "short_term": {
+          "max_turns": 20
+        },
+        "long_term": {
+          "enabled": true,
+          "collection_prefix": "memory_lt"
+        },
+        "entity_memory": {
+          "enabled": true,
+          "linked_graph": true
+        }
+      },
+      "kpi_ids": [],
+      "status": "training"
+    }
+  ],
+  "process_engines": [
+    {
+      "engine_id": "engine_process_d5f830f5e2aa",
+      "process_id": "process_d5f830f5e2aa",
+      "name": "通用业务处理流程",
+      "process_type": "business",
+      "steps": [
+        {
+          "step_id": "process_d5f830f5e2aa_step_1",
+          "name": "接受任务",
+          "order": 1,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "process_d5f830f5e2aa_step_2",
+          "name": "执行核心处理",
+          "order": 2,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "process_d5f830f5e2aa_step_3",
+          "name": "结果审核",
+          "order": 3,
+          "approval_required": true,
+          "approver_role": "业务负责人",
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "process_d5f830f5e2aa_step_4",
+          "name": "归档与记录",
+          "order": 4,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        }
+      ],
+      "triggers": [
+        {
+          "trigger_type": "manual",
+          "condition": ""
+        }
+      ],
+      "participants": [],
+      "escalation_rules": []
+    },
+    {
+      "engine_id": "engine_info_0a106486e0f1",
+      "process_id": "info_0a106486e0f1",
+      "name": "销售线索转化流程",
+      "process_type": "business",
+      "steps": [
+        {
+          "step_id": "info_0a106486e0f1_step_1",
+          "name": "线索获取与分配",
+          "order": 1,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_0a106486e0f1_step_2",
+          "name": "客户需求沟通",
+          "order": 2,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_0a106486e0f1_step_3",
+          "name": "方案与报价",
+          "order": 3,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_0a106486e0f1_step_4",
+          "name": "成交与转交",
+          "order": 4,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        }
+      ],
+      "triggers": [
+        {
+          "trigger_type": "manual",
+          "condition": ""
+        }
+      ],
+      "participants": [],
+      "escalation_rules": []
+    },
+    {
+      "engine_id": "engine_info_32eea2ba7486",
+      "process_id": "info_32eea2ba7486",
+      "process_type": "business",
+      "steps": [
+        {
+          "step_id": "info_32eea2ba7486_step_1",
+          "name": "外观验收",
+          "order": 1,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_32eea2ba7486_step_2",
+          "name": "通电验收",
+          "order": 2,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_32eea2ba7486_step_3",
+          "name": "功能验收",
+          "order": 3,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_32eea2ba7486_step_4",
+          "name": "验收报告签署",
+          "order": 4,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        }
+      ],
+      "triggers": [
+        {
+          "trigger_type": "manual",
+          "condition": ""
+        }
+      ],
+      "participants": [],
+      "escalation_rules": [],
+      "name": "产品验收流程"
+    },
+    {
+      "engine_id": "engine_info_15206f93b453",
+      "process_id": "info_15206f93b453",
+      "process_type": "business",
+      "steps": [
+        {
+          "step_id": "info_15206f93b453_step_1",
+          "name": "接收报修",
+          "order": 1,
+          "approval_required": false,
+          "approver_role": null,
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_15206f93b453_step_2",
+          "name": "登记故障信息",
+          "order": 2,
+          "approval_required": false,
+          "approver_role": null,
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_15206f93b453_step_3",
+          "name": "故障分级",
+          "order": 3,
+          "approval_required": false,
+          "approver_role": null,
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_15206f93b453_step_4",
+          "name": "响应处理",
+          "order": 4,
+          "approval_required": false,
+          "approver_role": null,
+          "condition": "根据故障等级执行相应响应机制",
+          "next_step_id": null
+        }
+      ],
+      "triggers": [
+        {
+          "trigger_type": "manual",
+          "condition": ""
+        }
+      ],
+      "participants": [],
+      "escalation_rules": [],
+      "name": "故障报修与响应流程"
+    },
+    {
+      "engine_id": "engine_info_d2840eed3d2a",
+      "process_id": "info_d2840eed3d2a",
+      "process_type": "business",
+      "steps": [
+        {
+          "step_id": "info_d2840eed3d2a_step_1",
+          "name": "确定客户等级",
+          "order": 1,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_d2840eed3d2a_step_2",
+          "name": "执行分级跟进策略",
+          "order": 2,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_d2840eed3d2a_step_3",
+          "name": "识别沉默客户",
+          "order": 3,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_d2840eed3d2a_step_4",
+          "name": "执行沉默客户唤醒流程",
+          "order": 4,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        }
+      ],
+      "triggers": [
+        {
+          "trigger_type": "manual",
+          "condition": ""
+        }
+      ],
+      "participants": [],
+      "escalation_rules": [],
+      "name": "客户分级与唤醒流程"
+    },
+    {
+      "engine_id": "engine_info_e7e15b286b6d",
+      "process_id": "info_e7e15b286b6d",
+      "process_type": "business",
+      "steps": [
+        {
+          "step_id": "info_e7e15b286b6d_step_1",
+          "name": "报修",
+          "order": 1,
+          "approval_required": false,
+          "approver_role": null,
+          "condition": null,
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_e7e15b286b6d_step_2",
+          "name": "远程诊断",
+          "order": 2,
+          "approval_required": false,
+          "approver_role": null,
+          "condition": null,
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_e7e15b286b6d_step_3",
+          "name": "返厂维修",
+          "order": 3,
+          "approval_required": false,
+          "approver_role": null,
+          "condition": null,
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_e7e15b286b6d_step_4",
+          "name": "维修周期",
+          "order": 4,
+          "approval_required": false,
+          "approver_role": null,
+          "condition": null,
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_e7e15b286b6d_step_5",
+          "name": "费用",
+          "order": 5,
+          "approval_required": false,
+          "approver_role": null,
+          "condition": null,
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_e7e15b286b6d_step_6",
+          "name": "返运",
+          "order": 6,
+          "approval_required": false,
+          "approver_role": null,
+          "condition": null,
+          "next_step_id": null
+        }
+      ],
+      "triggers": [
+        {
+          "trigger_type": "manual",
+          "condition": ""
+        }
+      ],
+      "participants": [],
+      "escalation_rules": [],
+      "name": "返厂维修流程"
+    },
+    {
+      "engine_id": "engine_info_16b576b2075d",
+      "process_id": "info_16b576b2075d",
+      "process_type": "business",
+      "steps": [
+        {
+          "step_id": "info_16b576b2075d_step_1",
+          "name": "提交采购申请",
+          "order": 1,
+          "approval_required": true,
+          "approver_role": "采购经理",
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_16b576b2075d_step_2",
+          "name": "供应商比价",
+          "order": 2,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_16b576b2075d_step_3",
+          "name": "下单与到货验收",
+          "order": 3,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_16b576b2075d_step_4",
+          "name": "入库归档",
+          "order": 4,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        }
+      ],
+      "triggers": [
+        {
+          "trigger_type": "manual",
+          "condition": ""
+        }
+      ],
+      "participants": [],
+      "escalation_rules": [],
+      "name": "采购申请流程"
+    },
+    {
+      "engine_id": "engine_info_2962e8e8d4b7",
+      "process_id": "info_2962e8e8d4b7",
+      "process_type": "business",
+      "steps": [
+        {
+          "step_id": "info_2962e8e8d4b7_step_1",
+          "name": "录用确认",
+          "order": 1,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_2962e8e8d4b7_step_2",
+          "name": "入职准备",
+          "order": 2,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_2962e8e8d4b7_step_3",
+          "name": "入职登记",
+          "order": 3,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_2962e8e8d4b7_step_4",
+          "name": "系统开通",
+          "order": 4,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_2962e8e8d4b7_step_5",
+          "name": "入职培训",
+          "order": 5,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        }
+      ],
+      "triggers": [
+        {
+          "trigger_type": "manual",
+          "condition": ""
+        }
+      ],
+      "participants": [],
+      "escalation_rules": [],
+      "name": "员工入职流程"
+    },
+    {
+      "engine_id": "engine_info_ede0aaacc410",
+      "process_id": "info_ede0aaacc410",
+      "process_type": "business",
+      "steps": [
+        {
+          "step_id": "info_ede0aaacc410_step_1",
+          "name": "离职申请",
+          "order": 1,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_ede0aaacc410_step_2",
+          "name": "离职审批",
+          "order": 2,
+          "approval_required": true,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_ede0aaacc410_step_3",
+          "name": "工作交接",
+          "order": 3,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_ede0aaacc410_step_4",
+          "name": "权限回收",
+          "order": 4,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        },
+        {
+          "step_id": "info_ede0aaacc410_step_5",
+          "name": "离职结算",
+          "order": 5,
+          "approval_required": false,
+          "approver_role": "",
+          "condition": "",
+          "next_step_id": null
+        }
+      ],
+      "triggers": [
+        {
+          "trigger_type": "manual",
+          "condition": ""
+        }
+      ],
+      "participants": [],
+      "escalation_rules": [],
+      "name": "员工离职流程"
+    }
+  ],
+  "collaboration_graph": {
+    "nodes": [
+      {
+        "id": "role_a4c12bc38dfe",
+        "name": "销售经理",
+        "department": ""
+      },
+      {
+        "id": "role_ee147c5c2cdb",
+        "name": "销售代表",
+        "department": ""
+      },
+      {
+        "id": "role_0fbf445101fb",
+        "name": "售前技术支持",
+        "department": ""
+      },
+      {
+        "id": "role_17399722d6ca",
+        "name": "产品经理",
+        "department": ""
+      },
+      {
+        "id": "role_e37f28845d99",
+        "name": "技术支持工程师",
+        "department": ""
+      },
+      {
+        "id": "role_61700c6a1be0",
+        "name": "客服专员",
+        "department": ""
+      },
+      {
+        "id": "role_1476efc3d2fe",
+        "name": "售后服务专员",
+        "department": ""
+      },
+      {
+        "id": "role_9366ea14fbe4",
+        "name": "会计",
+        "department": ""
+      },
+      {
+        "id": "role_33bf143602ae",
+        "name": "行政专员",
+        "department": ""
+      },
+      {
+        "id": "role_b1cf750ac1fa",
+        "name": "硬件工程师",
+        "department": ""
+      },
+      {
+        "id": "role_383260da8ea9",
+        "name": "软件工程师",
+        "department": ""
+      },
+      {
+        "id": "role_996e592a29a3",
+        "name": "质检员",
+        "department": ""
+      },
+      {
+        "id": "role_4903d01b31fe",
+        "name": "产品参数查询（转产品",
+        "department": ""
+      },
+      {
+        "id": "role_e6f52fe96c39",
+        "name": "客户询问产品参数",
+        "department": ""
+      },
+      {
+        "id": "info_073518e3f324",
+        "name": "CEO",
+        "department": "销售部"
+      },
+      {
+        "id": "info_e30f3e686191",
+        "name": "总监",
+        "department": "财务部"
+      },
+      {
+        "id": "info_35bd3bcc531b",
+        "name": "经理",
+        "department": "财务部"
+      },
+      {
+        "id": "info_01e68ab4e012",
+        "name": "销售代表",
+        "department": "销售部"
+      },
+      {
+        "id": "info_0c95a67fa4d7",
+        "name": "销售经理",
+        "department": "销售部"
+      },
+      {
+        "id": "info_f83d24d422d0",
+        "name": "客服专员",
+        "department": "客服部"
+      },
+      {
+        "id": "info_ed5d467c37f9",
+        "name": "售前工程师",
+        "department": "产品部"
+      },
+      {
+        "id": "info_957eee11ff2a",
+        "name": "售后工程师",
+        "department": "客服部"
+      },
+      {
+        "id": "info_8d7698d38983",
+        "name": "产品经理",
+        "department": "产品部"
+      },
+      {
+        "id": "info_1b80c0e89d44",
+        "name": "财务经理",
+        "department": "财务部"
+      },
+      {
+        "id": "info_25431c11320a",
+        "name": "人事经理",
+        "department": "人事/人力资源部"
+      },
+      {
+        "id": "info_2baa46f09a50",
+        "name": "研发工程师",
+        "department": "研发部"
+      },
+      {
+        "id": "info_ca24023a2caa",
+        "name": "生产经理",
+        "department": "生产部"
+      },
+      {
+        "id": "info_162d440c7050",
+        "name": "CEO / 总经理",
+        "department": "高管层"
+      },
+      {
+        "id": "info_28abc7c8b98d",
+        "name": "销售总监",
+        "department": "销售部"
+      },
+      {
+        "id": "info_b7bd4477496b",
+        "name": "售前技术支持",
+        "department": "销售部"
+      },
+      {
+        "id": "info_be7a4eba2ef7",
+        "name": "产品总监",
+        "department": "产品部"
+      },
+      {
+        "id": "info_0d7061d78b34",
+        "name": "技术支持工程师",
+        "department": "研发部"
+      },
+      {
+        "id": "info_d0ce310d5862",
+        "name": "客服主管",
+        "department": "客服部"
+      },
+      {
+        "id": "info_9c2d52a09089",
+        "name": "售后服务专员",
+        "department": "客服部"
+      },
+      {
+        "id": "info_99dc26f1f5d6",
+        "name": "会计",
+        "department": "财务部"
+      },
+      {
+        "id": "info_70723125cb7b",
+        "name": "人事行政经理",
+        "department": "人事行政部"
+      },
+      {
+        "id": "info_bf617cdc4edd",
+        "name": "行政专员",
+        "department": "人事行政部"
+      },
+      {
+        "id": "info_42297d1042d1",
+        "name": "研发总监",
+        "department": "研发部"
+      },
+      {
+        "id": "info_dfbfc63b458e",
+        "name": "质检员",
+        "department": "生产部"
+      },
+      {
+        "id": "info_fc73d1658052",
+        "name": "销售",
+        "department": ""
+      },
+      {
+        "id": "info_5ce6414ef885",
+        "name": "技术支持",
+        "department": "客服部"
+      },
+      {
+        "id": "info_b1f2a1261639",
+        "name": "维修工程师",
+        "department": "客服部"
+      },
+      {
+        "id": "info_472be76819da",
+        "name": "工程师",
+        "department": "产品部"
+      },
+      {
+        "id": "info_06fefba08523",
+        "name": "部门经理",
+        "department": ""
+      },
+      {
+        "id": "info_6250d3f7640b",
+        "name": "部门总监",
+        "department": ""
+      },
+      {
+        "id": "info_cb757dba2f5f",
+        "name": "客服",
+        "department": ""
+      },
+      {
+        "id": "info_fdbdb7ec8a33",
+        "name": "生产",
+        "department": ""
+      },
+      {
+        "id": "info_174a8fb067a3",
+        "name": "产品",
+        "department": ""
+      },
+      {
+        "id": "info_740c33b548eb",
+        "name": "研发",
+        "department": ""
+      },
+      {
+        "id": "info_d22c9f955fda",
+        "name": "售前",
+        "department": ""
+      },
+      {
+        "id": "info_6ebfef9fd901",
+        "name": "财务",
+        "department": ""
+      },
+      {
+        "id": "info_c70e33a96519",
+        "name": "人事",
+        "department": ""
+      },
+      {
+        "id": "info_5c5708bbe08b",
+        "name": "行政",
+        "department": ""
+      },
+      {
+        "id": "info_adc52c1653b2",
+        "name": "CEO",
+        "department": ""
+      },
+      {
+        "id": "info_5087f2ee2442",
+        "name": "总监",
+        "department": ""
+      },
+      {
+        "id": "info_d58422b17661",
+        "name": "经理",
+        "department": ""
+      },
+      {
+        "id": "info_8f7ad614f7f5",
+        "name": "销售",
+        "department": "销售部"
+      },
+      {
+        "id": "info_df28a7f43b06",
+        "name": "技术支持工程师",
+        "department": "客服部"
+      },
+      {
+        "id": "info_c2741deca933",
+        "name": "硬件工程师",
+        "department": "研发部"
+      },
+      {
+        "id": "info_5cc974032c5a",
+        "name": "软件工程师",
+        "department": "研发部"
+      },
+      {
+        "id": "info_cc3bbd5b8459",
+        "name": "制单人",
+        "department": "销售部"
+      },
+      {
+        "id": "info_e86fa81123b4",
+        "name": "客服",
+        "department": "客服部"
+      },
+      {
+        "id": "info_aa5e45a1d4d5",
+        "name": "财务",
+        "department": "财务部"
+      },
+      {
+        "id": "info_c5d8594b3329",
+        "name": "人事",
+        "department": "人事行政部"
+      },
+      {
+        "id": "info_29113b364e55",
+        "name": "行政",
+        "department": "人事行政部"
+      },
+      {
+        "id": "info_cca5895764dd",
+        "name": "CEO/总经理",
+        "department": "高管层"
+      },
+      {
+        "id": "info_673e5cccd315",
+        "name": "技术支持工程师",
+        "department": "产品部"
+      },
+      {
+        "id": "info_4e82ac26032e",
+        "name": "技术支持",
+        "department": ""
+      },
+      {
+        "id": "info_6cd2f0614a50",
+        "name": "主管",
+        "department": ""
+      },
+      {
+        "id": "info_74a74e342dc5",
+        "name": "工程师",
+        "department": ""
+      }
+    ],
+    "edges": [
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "role_ee147c5c2cdb",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "role_0fbf445101fb",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "role_17399722d6ca",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "role_e37f28845d99",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "role_61700c6a1be0",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "role_1476efc3d2fe",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "role_9366ea14fbe4",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "role_33bf143602ae",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "role_b1cf750ac1fa",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "role_383260da8ea9",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "role_996e592a29a3",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "role_4903d01b31fe",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "role_e6f52fe96c39",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "info_fc73d1658052",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "info_06fefba08523",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "info_6250d3f7640b",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "info_cb757dba2f5f",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "info_fdbdb7ec8a33",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "info_174a8fb067a3",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "info_740c33b548eb",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "info_d22c9f955fda",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "info_6ebfef9fd901",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "info_c70e33a96519",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "info_5c5708bbe08b",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "info_adc52c1653b2",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "info_5087f2ee2442",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "info_d58422b17661",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "info_4e82ac26032e",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "info_6cd2f0614a50",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "role_a4c12bc38dfe",
+        "target_id": "info_74a74e342dc5",
+        "relation": "collaborates_with",
+        "context": "同属部门"
+      },
+      {
+        "source_id": "info_073518e3f324",
+        "target_id": "info_01e68ab4e012",
+        "relation": "collaborates_with",
+        "context": "同属销售部部门"
+      },
+      {
+        "source_id": "info_073518e3f324",
+        "target_id": "info_0c95a67fa4d7",
+        "relation": "collaborates_with",
+        "context": "同属销售部部门"
+      },
+      {
+        "source_id": "info_073518e3f324",
+        "target_id": "info_28abc7c8b98d",
+        "relation": "collaborates_with",
+        "context": "同属销售部部门"
+      },
+      {
+        "source_id": "info_073518e3f324",
+        "target_id": "info_b7bd4477496b",
+        "relation": "collaborates_with",
+        "context": "同属销售部部门"
+      },
+      {
+        "source_id": "info_073518e3f324",
+        "target_id": "info_8f7ad614f7f5",
+        "relation": "collaborates_with",
+        "context": "同属销售部部门"
+      },
+      {
+        "source_id": "info_073518e3f324",
+        "target_id": "info_cc3bbd5b8459",
+        "relation": "collaborates_with",
+        "context": "同属销售部部门"
+      },
+      {
+        "source_id": "info_e30f3e686191",
+        "target_id": "info_35bd3bcc531b",
+        "relation": "collaborates_with",
+        "context": "同属财务部部门"
+      },
+      {
+        "source_id": "info_e30f3e686191",
+        "target_id": "info_1b80c0e89d44",
+        "relation": "collaborates_with",
+        "context": "同属财务部部门"
+      },
+      {
+        "source_id": "info_e30f3e686191",
+        "target_id": "info_99dc26f1f5d6",
+        "relation": "collaborates_with",
+        "context": "同属财务部部门"
+      },
+      {
+        "source_id": "info_e30f3e686191",
+        "target_id": "info_aa5e45a1d4d5",
+        "relation": "collaborates_with",
+        "context": "同属财务部部门"
+      },
+      {
+        "source_id": "info_f83d24d422d0",
+        "target_id": "info_957eee11ff2a",
+        "relation": "collaborates_with",
+        "context": "同属客服部部门"
+      },
+      {
+        "source_id": "info_f83d24d422d0",
+        "target_id": "info_d0ce310d5862",
+        "relation": "collaborates_with",
+        "context": "同属客服部部门"
+      },
+      {
+        "source_id": "info_f83d24d422d0",
+        "target_id": "info_9c2d52a09089",
+        "relation": "collaborates_with",
+        "context": "同属客服部部门"
+      },
+      {
+        "source_id": "info_f83d24d422d0",
+        "target_id": "info_5ce6414ef885",
+        "relation": "collaborates_with",
+        "context": "同属客服部部门"
+      },
+      {
+        "source_id": "info_f83d24d422d0",
+        "target_id": "info_b1f2a1261639",
+        "relation": "collaborates_with",
+        "context": "同属客服部部门"
+      },
+      {
+        "source_id": "info_f83d24d422d0",
+        "target_id": "info_df28a7f43b06",
+        "relation": "collaborates_with",
+        "context": "同属客服部部门"
+      },
+      {
+        "source_id": "info_f83d24d422d0",
+        "target_id": "info_e86fa81123b4",
+        "relation": "collaborates_with",
+        "context": "同属客服部部门"
+      },
+      {
+        "source_id": "info_ed5d467c37f9",
+        "target_id": "info_8d7698d38983",
+        "relation": "collaborates_with",
+        "context": "同属产品部部门"
+      },
+      {
+        "source_id": "info_ed5d467c37f9",
+        "target_id": "info_be7a4eba2ef7",
+        "relation": "collaborates_with",
+        "context": "同属产品部部门"
+      },
+      {
+        "source_id": "info_ed5d467c37f9",
+        "target_id": "info_472be76819da",
+        "relation": "collaborates_with",
+        "context": "同属产品部部门"
+      },
+      {
+        "source_id": "info_ed5d467c37f9",
+        "target_id": "info_673e5cccd315",
+        "relation": "collaborates_with",
+        "context": "同属产品部部门"
+      },
+      {
+        "source_id": "info_2baa46f09a50",
+        "target_id": "info_0d7061d78b34",
+        "relation": "collaborates_with",
+        "context": "同属研发部部门"
+      },
+      {
+        "source_id": "info_2baa46f09a50",
+        "target_id": "info_42297d1042d1",
+        "relation": "collaborates_with",
+        "context": "同属研发部部门"
+      },
+      {
+        "source_id": "info_2baa46f09a50",
+        "target_id": "info_c2741deca933",
+        "relation": "collaborates_with",
+        "context": "同属研发部部门"
+      },
+      {
+        "source_id": "info_2baa46f09a50",
+        "target_id": "info_5cc974032c5a",
+        "relation": "collaborates_with",
+        "context": "同属研发部部门"
+      },
+      {
+        "source_id": "info_ca24023a2caa",
+        "target_id": "info_dfbfc63b458e",
+        "relation": "collaborates_with",
+        "context": "同属生产部部门"
+      },
+      {
+        "source_id": "info_162d440c7050",
+        "target_id": "info_cca5895764dd",
+        "relation": "collaborates_with",
+        "context": "同属高管层部门"
+      },
+      {
+        "source_id": "info_70723125cb7b",
+        "target_id": "info_bf617cdc4edd",
+        "relation": "collaborates_with",
+        "context": "同属人事行政部部门"
+      },
+      {
+        "source_id": "info_70723125cb7b",
+        "target_id": "info_c5d8594b3329",
+        "relation": "collaborates_with",
+        "context": "同属人事行政部部门"
+      },
+      {
+        "source_id": "info_70723125cb7b",
+        "target_id": "info_29113b364e55",
+        "relation": "collaborates_with",
+        "context": "同属人事行政部部门"
+      }
+    ]
+  },
+  "knowledge_index": {
+    "vector_store_ref": "enterprise_9e512a5b-5ae1-4e52-82ae-b1bb8d5a550e",
+    "graph_store_ref": "knowledge_graph"
+  },
+  "tool_registry": [
+    {
+      "tool_id": "知识库检索",
+      "name": "知识库检索",
+      "tool_type": "api",
+      "installed": true,
+      "verified": true,
+      "config": {}
+    },
+    {
+      "tool_id": "文档解析",
+      "name": "文档解析",
+      "tool_type": "api",
+      "installed": true,
+      "verified": true,
+      "config": {}
+    },
+    {
+      "tool_id": "任务编排",
+      "name": "任务编排",
+      "tool_type": "api",
+      "installed": true,
+      "verified": true,
+      "config": {}
+    },
+    {
+      "tool_id": "审批流",
+      "name": "审批流",
+      "tool_type": "api",
+      "installed": true,
+      "verified": true,
+      "config": {}
+    },
+    {
+      "tool_id": "消息协作",
+      "name": "消息协作",
+      "tool_type": "api",
+      "installed": true,
+      "verified": true,
+      "config": {}
+    },
+    {
+      "tool_id": "报表生成",
+      "name": "报表生成",
+      "tool_type": "api",
+      "installed": true,
+      "verified": true,
+      "config": {}
+    },
+    {
+      "tool_id": "llm_service",
+      "name": "LLM 服务",
+      "tool_type": "api",
+      "installed": true,
+      "verified": true,
+      "config": {}
+    },
+    {
+      "tool_id": "vector_db",
+      "name": "向量数据库",
+      "tool_type": "api",
+      "installed": true,
+      "verified": true,
+      "config": {}
+    },
+    {
+      "tool_id": "db_query",
+      "name": "数据库查询",
+      "tool_type": "api",
+      "installed": true,
+      "verified": true,
+      "config": {}
+    },
+    {
+      "tool_id": "vector_search",
+      "name": "向量检索",
+      "tool_type": "api",
+      "installed": true,
+      "verified": true,
+      "config": {}
+    },
+    {
+      "tool_id": "memory_store",
+      "name": "记忆存储",
+      "tool_type": "api",
+      "installed": true,
+      "verified": true,
+      "config": {}
+    },
+    {
+      "tool_id": "auth_security",
+      "name": "身份与权限",
+      "tool_type": "api",
+      "installed": true,
+      "verified": true,
+      "config": {}
+    },
+    {
+      "tool_id": "monitoring",
+      "name": "监控告警",
+      "tool_type": "api",
+      "installed": true,
+      "verified": true,
+      "config": {}
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+# Ruff 配置：统一代码风格与安全扫描规则
+#
+# CI 直接运行 `ruff check app/ tests/`，由本文件决定规则与豁免；
+# 命令行不再用 `--ignore` 覆盖，否则这里的配置形同虚设。
+
+[lint]
+select = ["E", "F", "W", "B", "S"]
+ignore = [
+    "E501",  # 行宽由 formatter / 团队约定控制，不在 lint 阶段阻塞
+    "S104",  # 容器服务绑定 0.0.0.0 是标准做法（app/config.py 的 HOST）
+]
+
+[lint.flake8-bugbear]
+# B008「函数调用出现在参数默认值里」在 FastAPI 里是官方推荐的依赖注入写法：
+# `user: User = Depends(get_current_user)`。用 immutable-calls 白名单精确豁免
+# 这类调用，而不是全局关掉 B008 —— 其它真正有风险的默认值调用仍会被拦下。
+extend-immutable-calls = [
+    "fastapi.Depends",
+    "fastapi.Query",
+    "fastapi.Header",
+    "fastapi.Path",
+    "fastapi.Body",
+    "fastapi.Cookie",
+    "fastapi.File",
+    "fastapi.Form",
+    "fastapi.Security",
+    "fastapi.background.BackgroundTasks",
+]
+
+[lint.per-file-ignores]
+# 测试文件允许使用 pytest 标准写法与硬编码测试数据，避免生产安全规则误报
+"tests/**/*.py" = [
+    "S101",  # assert
+    "S105",  # 硬编码"密码"字符串（多为 token_type / cookie 名等误报）
+    "S106",  # 硬编码密码参数
+    "S107",  # 硬编码密码函数默认值
+    "S108",  # /tmp 路径
+    "S110",  # try-except-pass
+    "F401",  # 未使用 import（fixtures）
+    "F841",  # 未使用局部变量
+    "B017",  # pytest.raises(Exception)
+]
+# 配置文件仅作名称/默认值声明，无真实密码
+"app/config.py" = ["S105"]
+# 认证 schema 的 token_type 是 OAuth2 标准值，非密码
+"app/services/auth_service.py" = ["S106"]
+
+# conftest 必须在导入 app / chromadb **之前**设置环境（限流开关、Chroma ONNX
+# 缓存改道等），这是 pytest 的既定写法，不是"忘了整理 import"。
+"tests/conftest.py" = ["E402"]
+# 错误码与 cookie/CSRF 名称为常量标识符，非密码
+"app/utils/error_codes.py" = ["S105"]
+"app/utils/security.py" = ["S105"]
+# 3.3.4: auth 包拆分后，csrf.py 中的 CSRF_TOKEN_NAME 是 cookie 名常量，非密码
+"app/utils/auth/csrf.py" = ["S105"]
+# 固定兜底种子仅在本地开发生效，生产 config.py 强制要求显式密钥
+"app/utils/credential_crypto.py" = ["S105"]
+# LLM 重试抖动只用于打散重试时刻，不涉及任何安全用途
+"app/services/llm_service.py" = ["S311"]
+# 音视频处理调用固定外部工具 ffmpeg，输入已做路径安全校验
+"app/services/audio_transcriber.py" = ["S603", "S607"]
+"app/services/video_processor.py" = ["S603", "S607"]

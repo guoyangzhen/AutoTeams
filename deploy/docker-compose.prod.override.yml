@@ -1,0 +1,73 @@
+# ============================================================
+# AutoTeams 生产部署覆盖配置（轻量云 2 核 2G 优化）
+#
+# 用法（在服务器 ~/autoteams-deploy 目录）：
+#   docker compose \
+#     -f docker-compose.prod.yml \
+#     -f docker-compose.prod.override.yml \
+#     --env-file .env.prod \
+#     up -d
+#
+# 与 docker-compose.prod.yml 的差异：
+#   1. 下调各容器内存/CPU 上限，适配 2 核 2G（+2G swap）轻量服务器，避免 OOM
+#   2. backup 服务改从 GHCR 拉取预构建镜像（原配置为本地 build，服务器不构建）
+#   3. 保留原 prod 的安全加固（read_only / no-new-privileges / cap_drop）
+# ============================================================
+services:
+  frontend:
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+
+  backend:
+    # 生产默认不初始化演示数据；并关闭样例五级编译（需 LLM），保证真实企业
+    # 数据库不被演示账号/向量污染且后端快速就绪。
+    environment:
+      - SEED_DEMO=0
+      - AUTO_DEMO_COMPILE=0
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1.5G
+
+  collaboration-service:
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 768M
+
+  postgres:
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 768M
+
+  redis:
+    # redis 命令已设 --maxmemory 512mb，容器上限需留出命令/开销余量
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 640M
+
+  chromadb:
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+
+  backup:
+    # 服务器不构建，直接使用本地构建并推送到 GHCR 的预构建镜像
+    image: ghcr.io/guoyangzhen/autoteams-backup:latest
+    build: null
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M

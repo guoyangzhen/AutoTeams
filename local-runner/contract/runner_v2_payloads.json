@@ -1,0 +1,39 @@
+{
+  "$comment": "Runner 2.0 端侧↔云端共享契约样例。backend/tests/test_runner_v2_contract.py 与 local-runner/test/contract.test.ts 都消费本文件，任何一侧改了字段名，另一侧必须一起改。",
+  "heartbeat_request": {
+    "runner_id": "local-1234",
+    "scopes": ["physical", "read"],
+    "platform": "win32",
+    "version": "2.0.0",
+    "capabilities": {
+      "browser": true,
+      "desktop": false,
+      "frames": { "width": 160, "height": 100, "format": "gray8" }
+    }
+  },
+  "push_frame_request": {
+    "kind": "keyframe",
+    "width": 160,
+    "height": 100,
+    "payload_b64": "QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVo="
+  },
+  "report_result_request": {
+    "ok": true,
+    "data": { "matched": 1 },
+    "receipt_id": "task-abc::step-1",
+    "step_id": "step-1"
+  },
+  "verify_device_code_request": {
+    "device_code": "012345"
+  },
+  "confirm_challenge_request": {
+    "decision": "approve"
+  },
+  "heartbeat_response_data": {
+    "server_time": "2026-09-28T12:00:00+00:00",
+    "heartbeat_ttl_seconds": 45,
+    "runner": { "runner_id": "local-1234", "online": true },
+    "pending_tasks": [],
+    "notifications": []
+  }
+}

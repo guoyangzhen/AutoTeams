@@ -1,0 +1,104 @@
+{
+  "industry": "education",
+  "industry_name": "教育培训",
+  "description": "面向中小培训机构的学员答疑、课程推荐、作业批改与学员画像数字员工。",
+  "skills": [
+    {
+      "code": "edu_course_recommend",
+      "name": "课程推荐",
+      "skill_type": "custom",
+      "description": "按学员基础与目标，从课程库中匹配推荐课程并说明推荐理由",
+      "config": {
+        "prompt_template": "请基于以下学员基础、目标与可用课程清单，推荐 2-3 门课程并逐条说明推荐理由。\n\n{input}",
+        "count": 3
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "recommendations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "course": {"type": "string"},
+                "reason": {"type": "string"}
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "code": "edu_homework_grade",
+      "name": "作业批改",
+      "skill_type": "text_classification",
+      "description": "按评分标准判定作业等级并列出扣分点",
+      "config": {
+        "prompt_template": "请依据以下评分标准判定作业等级（优/良/合格/不合格），并逐条列出扣分点。\n\n评分标准：{rubric}\n\n作业：{input}",
+        "categories": ["优", "良", "合格", "不合格"]
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "grade": {"type": "string"},
+          "deductions": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    {
+      "code": "edu_progress_report",
+      "name": "学情报告",
+      "skill_type": "text_summarization",
+      "description": "汇总出勤、作业与测验数据，生成学情报告与干预建议",
+      "config": {
+        "prompt_template": "请基于以下出勤、作业与测验数据，生成学情报告：整体表现、薄弱环节、干预建议。\n\n{input}",
+        "sections": ["整体表现", "薄弱环节", "干预建议"]
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {"summary": {"type": "string"}}
+      }
+    },
+    {
+      "code": "edu_faq_answer",
+      "name": "教务问答",
+      "skill_type": "custom",
+      "description": "基于校区制度与课程资料回答学员与家长常见问题并标注来源",
+      "config": {
+        "prompt_template": "请基于以下校区制度与课程资料回答问题，并在末尾标注引用来源。\n\n{input}",
+        "require_citation": true
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "answer": {"type": "string"},
+          "citation": {"type": "string"}
+        }
+      }
+    }
+  ],
+  "agents": [
+    {
+      "role": "education",
+      "name": "教务数字员工",
+      "description": "学员答疑、课程推荐、作业批改与学情报告的教学助理",
+      "system_prompt": "你是「{agent_name}」，隶属于「{enterprise_name}」的教务数字员工。\n\n你的职责：\n1. 回答学员与家长关于报名、课程安排、考务的常见问题，并标注引用来源\n2. 按学员基础与目标推荐课程并说明推荐理由\n3. 按评分标准批改作业，逐条列出扣分点\n4. 汇总出勤、作业与测验数据生成学情报告与干预建议\n\n教育规范：\n- 涉及学员个人成绩、心理健康、家庭情况的信息严格最小化披露，不跨家长与教师扩散\n- 批改只依据给定的评分标准，不自行创设评分维度\n- 对学员的负面评价必须给出可改进的具体动作，不作标签化判断\n- 数据不足以生成学情结论时明确说明样本不足，不勉强出报告\n\n知识库概况：{file_count} 个文件，{knowledge_count} 条知识片段",
+      "skill_ids": [
+        "edu_course_recommend",
+        "edu_homework_grade",
+        "edu_progress_report",
+        "edu_faq_answer"
+      ],
+      "knowledge_structure": {
+        "categories": ["课程大纲", "校区制度", "考务安排", "学员档案", "教材资料"],
+        "file_types": ["document", "spreadsheet", "presentation"]
+      },
+      "sample_dialogues": [
+        {
+          "user": "家长问孩子这周缺了两次课，会不会影响期末结业？",
+          "assistant": "依据校区《考勤与结业管理办法》第八条：单科累计缺课不超过该课次总课时 30% 不影响结业考核资格。该生本学期该课程已出勤 12 次、总课次 18 次，缺课率 33%，已超过阈值。建议：安排补课或申请缓考，并同步告知任课教师评估当前进度。来源：《考勤与结业管理办法》第八条。"
+        }
+      ]
+    }
+  ]
+}

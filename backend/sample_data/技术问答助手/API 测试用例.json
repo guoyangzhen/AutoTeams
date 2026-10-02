@@ -1,0 +1,47 @@
+{
+  "test_cases": [
+    {
+      "id": "TC-001",
+      "name": "成功登录",
+      "endpoint": "POST /api/v1/auth/login",
+      "request": {"email": "demo@autoteams.example", "password": "demo123456"},
+      "expected": {"status": 200, "body_contains": "access_token"}
+    },
+    {
+      "id": "TC-002",
+      "name": "错误密码登录失败",
+      "endpoint": "POST /api/v1/auth/login",
+      "request": {"email": "demo@autoteams.example", "password": "wrong"},
+      "expected": {"status": 401, "body_contains": "Invalid credentials"}
+    },
+    {
+      "id": "TC-003",
+      "name": "未认证访问受保护资源",
+      "endpoint": "GET /api/v1/agents",
+      "request": {},
+      "headers": {},
+      "expected": {"status": 401}
+    },
+    {
+      "id": "TC-004",
+      "name": "触发限流",
+      "endpoint": "POST /api/v1/auth/login",
+      "description": "连续 101 次请求，第 101 次应返回 429",
+      "expected": {"status": 429, "headers_contains": "X-RateLimit-Reset"}
+    },
+    {
+      "id": "TC-005",
+      "name": "Webhook 签名验证",
+      "endpoint": "POST /api/v1/webhook/test",
+      "description": "携带错误签名应返回 403",
+      "expected": {"status": 403}
+    }
+  ],
+  "rate_limit": {
+    "basic": "100/min",
+    "pro": "1000/min",
+    "algorithm": "token_bucket"
+  },
+  "webhook_timeout_seconds": 3,
+  "token_expiry_days": 30
+}
